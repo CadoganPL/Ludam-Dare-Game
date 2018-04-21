@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine;
+using System;
 
 public class AllCardActions : MonoBehaviour
 {
@@ -10,6 +11,34 @@ public class AllCardActions : MonoBehaviour
     public void Flashbang()
     {
         StartCoroutine(FlashBangScreen());
+    }
+
+    public void RunnerSpeedUp()
+    {
+        StartCoroutine(SpeedUp());
+    }
+
+    public void SpawnLowObstacle()
+    {
+        GameObject.Find("CardObstaclesSpawner").GetComponent<CardsObstacleSpawner>().SpawnObstacle(CardsObstacleSpawner.obstacleType.low);
+    }
+    public void SpawnMidObstacle()
+    {
+        GameObject.Find("CardObstaclesSpawner").GetComponent<CardsObstacleSpawner>().SpawnObstacle(CardsObstacleSpawner.obstacleType.medium);
+    }
+
+    public void SpawnHighObstacle()
+    {
+        GameObject.Find("CardObstaclesSpawner").GetComponent<CardsObstacleSpawner>().SpawnObstacle(CardsObstacleSpawner.obstacleType.high);
+    }
+
+
+
+    private IEnumerator SpeedUp()
+    {
+        GetComponent<GameManager>().globalSpeed *= 2;
+        yield return new WaitForSeconds(3f);
+        GetComponent<GameManager>().globalSpeed /= 2;
     }
 
     private IEnumerator FlashBangScreen()
@@ -40,5 +69,7 @@ public class AllCardActions : MonoBehaviour
         }
 
         FlashBang.enabled = false;
+
+
     }
 }
