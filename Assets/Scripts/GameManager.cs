@@ -6,12 +6,12 @@ public class GameManager : MonoBehaviour {
 
     public static GameManager instance = null;
     //Obstacle
-    public Transform point_Spawner;
     public GameObject prefab_Block;
     private List<GameObject> blockPool = new List<GameObject>();
     public float spawnTimer;
     private float timeToSpawn;
     public float globalSpeed = 1f;
+    public Vector2[] points_SpawnLocations;
     //player
     private PlayerController _player;
 
@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour {
         int i = 0;
         for (i = 0; i < 10; i++)
         {
-            GameObject go = Instantiate(prefab_Block, point_Spawner.position, Quaternion.identity) as GameObject;
+            GameObject go = Instantiate(prefab_Block, points_SpawnLocations[0], Quaternion.identity) as GameObject;
             go.name = "Block_" + i;
             go.SetActive(false);
             blockPool.Add(go);
@@ -69,7 +69,8 @@ public class GameManager : MonoBehaviour {
                 {
                     if (!blockPool[i].activeSelf)
                     {
-                        blockPool[i].transform.position = point_Spawner.position;
+                        int rand = Random.Range(0, 3);
+                        blockPool[i].transform.position = points_SpawnLocations[rand];
                         blockPool[i].SetActive(true);
                         break;
                     }
