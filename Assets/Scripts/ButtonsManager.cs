@@ -6,11 +6,10 @@ using Utility;
 
 public class ButtonsManager : MonoBehaviour
 {
-    public float CardUnactiveTime = 30.00f;
+    public Card CardOne, CardTwo, CardThree;
 
     private float cardOneTimer, cardTwoTimer, cardThreeTimer;
     private bool cardOneTimerSet, cardTwoTimerSet, cardThreeTimerSet;
-    private Image cardOneImage, cardTwoImage, cardThreeImage;
 
     public bool CardOneTimerSet { get { return cardOneTimerSet; } }
     public bool CardTwoTimerSet { get { return cardTwoTimerSet; } }
@@ -22,11 +21,12 @@ public class ButtonsManager : MonoBehaviour
         {
             cardOneTimer -= Time.deltaTime;
 
-            if(cardOneTimer <= 0)
+            if (cardOneTimer <= 0)
             {
                 cardOneTimer = 0;
-                
+
                 cardOneTimerSet = false;
+                CardOne.MyButton.interactable = true;
                 print("re-enabling Card One");
             }
         }
@@ -36,10 +36,11 @@ public class ButtonsManager : MonoBehaviour
             cardTwoTimer -= Time.deltaTime;
 
             if (cardTwoTimer <= 0)
-            {       
+            {
                 cardTwoTimer = 0;
 
                 cardTwoTimerSet = false;
+                CardTwo.MyButton.interactable = true;
                 print("re-enabling Card Two");
             }
         }
@@ -49,75 +50,58 @@ public class ButtonsManager : MonoBehaviour
             cardThreeTimer -= Time.deltaTime;
 
             if (cardThreeTimer <= 0)
-            {       
+            {
                 cardThreeTimer = 0;
-                    
+
                 cardThreeTimerSet = false;
+                CardThree.MyButton.interactable = true;
                 print("re-enabling Card Three");
             }
         }
     }
 
-    public void CardOneButton(Image CardImage)
+    public void CardOneButton()
     {
-        if(cardOneImage == null)
-        {
-            cardOneImage = CardImage;
-        }
-
-        print("Seeing what function I do by GameManager");
-
         print("Using Card One, adding timer");
+        CardOne.MyWork();
 
-        DisableCardToUse(CardImage, 1);
+        DisableCardToUse(CardOne);
     }
 
-    public void CardTwoButton(Image CardImage)
+    public void CardTwoButton()
     {
-        if (cardTwoImage == null)
-        {
-            cardTwoImage = CardImage;
-        }
-
-        print("Seeing what function I do by GameManager");
-
         print("Using Card Two, adding timer");
+        CardTwo.MyWork();
 
-        DisableCardToUse(CardImage, 2);
+        DisableCardToUse(CardTwo);
     }
 
-    public void CardThreeButton(Image CardImage)
+    public void CardThreeButton()
     {
-        if (cardTwoImage == null)
-        {
-            cardTwoImage = CardImage;
-        }
-
-        print("Seeing what function I do by GameManager");
-
         print("Using Card Three, adding timer");
+        CardThree.MyWork();
 
-        DisableCardToUse(CardImage, 3);
+        DisableCardToUse(CardThree);
     }
 
-    private void DisableCardToUse(Image CardImage,int WhichCard)
+    private void DisableCardToUse(Card Card)
     {
-        UtilityClass.GrayOutImage(CardImage);
-        
-        switch (WhichCard)
+        UtilityClass.UnableButton(Card.MyButton);
+
+        switch (Card.CardNumber)
         {
             case 1:
-                cardOneTimer = CardUnactiveTime;
+                cardOneTimer = Card.RelodTime;
                 cardOneTimerSet = true;
                 break;
 
             case 2:
-                cardTwoTimer = CardUnactiveTime;
+                cardTwoTimer = Card.RelodTime;
                 cardTwoTimerSet = true;
                 break;
 
             case 3:
-                cardThreeTimer = CardUnactiveTime;
+                cardThreeTimer = Card.RelodTime;
                 cardThreeTimerSet = true;
                 break;
 
@@ -127,12 +111,11 @@ public class ButtonsManager : MonoBehaviour
         }
     }
 
-
-    private void ReEnableCardToUse(Image CardImage, int WhichCard)
+    private void ReEnableCardToUse(Card Card)
     {
-        UtilityClass.UnGrayOutImage(CardImage);
+        UtilityClass.EnableButton(Card.MyButton);
 
-        switch (WhichCard)
+        switch (Card.CardNumber)
         {
             case 1:
                 cardOneTimerSet = false;
