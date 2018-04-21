@@ -62,6 +62,8 @@ public class ButtonsManager : MonoBehaviour
 
     public void CardOneButton()
     {
+        CardOne.MyWork = FindObjectOfType<AllCardActions>().Flashbang;
+
         print("Using Card One, adding timer");
         CardOne.MyWork();
 
