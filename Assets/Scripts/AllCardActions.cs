@@ -14,22 +14,31 @@ public class AllCardActions : MonoBehaviour
 
     private IEnumerator FlashBangScreen()
     {
-        float i = 0.0f;
+        FlashBang.enabled = true;
 
-        for (i = 0; i <= 255; i += 0.1f)
+        for (float i = 0; i <= 1; i += 0.08f)
         {
             yield return new WaitForSeconds(0.08f * Time.deltaTime);
 
-            FlashBang.color = new Color(FlashBang.color.r, FlashBang.color.g, FlashBang.color.b, i);
+            Color col = FlashBang.color;
+            col.a = i;
+
+            FlashBang.color = col;
         }
 
         yield return new WaitForSeconds(1f);
 
-        for (i = 255; i <= 0; i -= 0.1f)
+        for (float i = 1; i >= 0; i -= 0.07f)
         {
+            print(i);
             yield return new WaitForSeconds(0.08f * Time.deltaTime);
 
-            FlashBang.color = new Color(FlashBang.color.r, FlashBang.color.g, FlashBang.color.b, i);
+            Color col = FlashBang.color;
+            col.a = i;
+
+            FlashBang.color = col;
         }
+
+        FlashBang.enabled = false;
     }
 }
