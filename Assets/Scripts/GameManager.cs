@@ -22,6 +22,9 @@ public class GameManager : MonoBehaviour {
     //UI
     public GameObject[] UIPanels;
 
+    //Cards
+    public string CardOne, CardTwo, CardThree;
+
     void Awake()
     {
         if (instance == null)
