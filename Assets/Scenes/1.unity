@@ -250,20 +250,6 @@ Prefab:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1696555168}
-    - target: {fileID: 1081718058089282, guid: 3d74bbd6d4700554b8c78cc64a5b2a39, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114456872211036370, guid: 3d74bbd6d4700554b8c78cc64a5b2a39,
-        type: 2}
-      propertyPath: m_Text
-      value: Card 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 114050410138390114, guid: 3d74bbd6d4700554b8c78cc64a5b2a39,
-        type: 2}
-      propertyPath: m_Text
-      value: Card 2
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3d74bbd6d4700554b8c78cc64a5b2a39, type: 2}
   m_IsPrefabParent: 0
@@ -305,25 +291,6 @@ Prefab:
     - target: {fileID: 4269225169751810, guid: c972a8a5071df41409097ad5e0718736, type: 2}
       propertyPath: m_RootOrder
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4439807894016484, guid: c972a8a5071df41409097ad5e0718736, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: -0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 114120500374009176, guid: c972a8a5071df41409097ad5e0718736,
-        type: 2}
-      propertyPath: jumpForce
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 114120500374009176, guid: c972a8a5071df41409097ad5e0718736,
-        type: 2}
-      propertyPath: filter.useLayerMask
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114120500374009176, guid: c972a8a5071df41409097ad5e0718736,
-        type: 2}
-      propertyPath: filter.layerMask.m_Bits
-      value: 256
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c972a8a5071df41409097ad5e0718736, type: 2}
@@ -667,11 +634,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65d468633cc115f47925e54235aa2bf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  point_Spawner: {fileID: 845841843}
   prefab_Block: {fileID: 1353534394919354, guid: ef6d2374b40f6bb41881f02570522391,
     type: 2}
   spawnTimer: 3
   globalSpeed: 1
+  points_SpawnLocations:
+  - {x: 14.6, y: -0.7}
+  - {x: 14.6, y: 0.2}
+  - {x: 14.6, y: 1.2}
   score: 0
   gameStart: 0
   gamePause: 0
