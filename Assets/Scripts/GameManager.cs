@@ -96,8 +96,7 @@ public class GameManager : MonoBehaviour {
         {
             if(!UIPanels[1].activeSelf)
             {
-                CloseAlUIPanels();
-                UIPanels[1].SetActive(true);
+                OpenUIPanel(1);
                 Time.timeScale = 0.0f;
             }
         }
@@ -120,7 +119,7 @@ public class GameManager : MonoBehaviour {
 
     public void StartGame()
     {
-        CloseAlUIPanels();
+        OpenUIPanel(2);
         ResetSceneVariables();
         gameStart = true;
     }
