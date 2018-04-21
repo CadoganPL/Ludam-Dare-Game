@@ -6,6 +6,7 @@ using UnityEngine;
 public class AllCardActions : MonoBehaviour
 {
     public Image FlashBang;
+    public float TimeBetweenFlashbangFade;
 
     public void Flashbang()
     {
@@ -26,7 +27,7 @@ public class AllCardActions : MonoBehaviour
             FlashBang.color = col;
         }
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(TimeBetweenFlashbangFade);
 
         for (float i = 1; i >= 0; i -= 0.07f)
         {
