@@ -6,14 +6,14 @@ namespace Utility
 {
     public static class UtilityClass
     {
-        public static void GrayOutImage(Image image)
+        public static void UnableButton(Button button)
         {
-            image.color = new Color(image.color.r, image.color.g, image.color.b, 99f);
+            button.interactable = false;
         }
 
-        public static void UnGrayOutImage(Image image)
+        public static void EnableButton(Button button)
         {
-            image.color = new Color(image.color.r, image.color.g, image.color.b, 255f);
+            button.interactable = true;
         }
     }
 }
