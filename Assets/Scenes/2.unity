@@ -783,6 +783,7 @@ MonoBehaviour:
   prefab_Block: {fileID: 1353534394919354, guid: ef6d2374b40f6bb41881f02570522391,
     type: 2}
   spawnTimer: 3
+  AISpawnTime: 2
   globalSpeed: 1
   points_SpawnLocations:
   - {x: 14.6, y: -0.25}
