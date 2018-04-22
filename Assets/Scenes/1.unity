@@ -338,7 +338,27 @@ Prefab:
     - target: {fileID: 114120500374009176, guid: c972a8a5071df41409097ad5e0718736,
         type: 2}
       propertyPath: jumpForce
-      value: 400
+      value: 230
+      objectReference: {fileID: 0}
+    - target: {fileID: 58721196388704896, guid: c972a8a5071df41409097ad5e0718736,
+        type: 2}
+      propertyPath: m_Offset.x
+      value: -0.050000012
+      objectReference: {fileID: 0}
+    - target: {fileID: 58721196388704896, guid: c972a8a5071df41409097ad5e0718736,
+        type: 2}
+      propertyPath: m_Offset.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 58721196388704896, guid: c972a8a5071df41409097ad5e0718736,
+        type: 2}
+      propertyPath: m_Radius
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114120500374009176, guid: c972a8a5071df41409097ad5e0718736,
+        type: 2}
+      propertyPath: slideTime
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c972a8a5071df41409097ad5e0718736, type: 2}
@@ -693,9 +713,9 @@ MonoBehaviour:
   spawnTimer: 3
   globalSpeed: 1
   points_SpawnLocations:
-  - {x: 14.6, y: -0.25}
-  - {x: 14.6, y: -0.55}
-  - {x: 14.6, y: -1}
+  - {x: 14.6, y: -0.6}
+  - {x: 14.6, y: -0.5}
+  - {x: 14.6, y: -1.05}
   score:
   - 0
   - 0
