@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class CardsObstacleSpawner : MonoBehaviour {
+public class CardsObstacleSpawner : MonoBehaviour
+{
 
     [SerializeField]
     GameObject lowObstacle;
@@ -15,34 +16,37 @@ public class CardsObstacleSpawner : MonoBehaviour {
     private int i = 0;
     public enum obstacleType
     {
-        low,medium,high
+        low,
+        medium,
+        high
     }
     // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
+    void Start()
+    {
+
+    }
+
+    // Update is called once per frame
 
     public void SpawnObstacle(obstacleType type)
     {
         GameObject[] obstacleArray = GameObject.FindGameObjectsWithTag("Obstacle");
         obstacleArray = obstacleArray.OrderBy(x => Mathf.Abs(this.transform.position.x - x.transform.position.x)).ToArray();
-        switch(type)
+        switch (type)
         {
             case obstacleType.low:
-                Instantiate(GameObject.Find("GameManager").GetComponent<GameManager>().prefab_Block, GetComponent<GameManager>().points_SpawnLocations[0], Quaternion.identity);//.name ="Block_Card_" + i;
+                FindObjectOfType<GameManager>().NextBlockSpawnLocation = 0;
                 break;
             case obstacleType.medium:
-                Instantiate(GameObject.Find("GameManager").GetComponent<GameManager>().prefab_Block, GetComponent<GameManager>().points_SpawnLocations[1], Quaternion.identity);//.name = "Block_Card_" + i;
+                FindObjectOfType<GameManager>().NextBlockSpawnLocation = 1;
                 break;
             case obstacleType.high:
-                Instantiate(GameObject.Find("GameManager").GetComponent<GameManager>().prefab_Block, GetComponent<GameManager>().points_SpawnLocations[2], Quaternion.identity);//.name = "Block_Card_" + i;
+                FindObjectOfType<GameManager>().NextBlockSpawnLocation = 2;
                 break;
             default:
                 break;
         }
     }
 
-    
+
 }

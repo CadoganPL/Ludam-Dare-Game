@@ -21,11 +21,11 @@ public class AllCardActions : MonoBehaviour
 
     public void SpawnLowObstacle()
     {
-        GameObject.Find("CardObstaclesSpawner").GetComponent<CardsObstacleSpawner>().SpawnObstacle(CardsObstacleSpawner.obstacleType.low);
+        FindObjectOfType<CardsObstacleSpawner>().SpawnObstacle(CardsObstacleSpawner.obstacleType.low);
     }
     public void SpawnMidObstacle()
     {
-        GameObject.Find("CardObstaclesSpawner").GetComponent<CardsObstacleSpawner>().SpawnObstacle(CardsObstacleSpawner.obstacleType.medium);
+        FindObjectOfType<CardsObstacleSpawner>().SpawnObstacle(CardsObstacleSpawner.obstacleType.medium);
     }
 
     public void SpawnHighObstacle()
