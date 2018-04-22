@@ -785,9 +785,9 @@ MonoBehaviour:
   spawnTimer: 3
   globalSpeed: 1
   points_SpawnLocations:
-  - {x: 14.6, y: -0.7}
-  - {x: 14.6, y: 0.2}
-  - {x: 14.6, y: 1.2}
+  - {x: 14.6, y: -0.25}
+  - {x: 14.6, y: -0.55}
+  - {x: 14.6, y: -1}
   score:
   - 0
   - 0
