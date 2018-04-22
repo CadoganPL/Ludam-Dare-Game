@@ -136,10 +136,20 @@ public class GameManager : MonoBehaviour
 
     private void SpawnCardObstacle()
     {
-        GameObject[] blockArray = blocksOnScreen.ToArray();
-        blockArray = blockArray.OrderBy(x => Mathf.Abs(x.transform.position.x - _player.transform.position.x)).ToArray();
-        Vector2 position = new Vector2((blockArray[0].transform.position.x + blockArray[1].transform.position.x) / 2, 0f);
-        position.y = points_SpawnLocations[(int)NextBlockSpawnLocation].y;
+        Vector2 position = new Vector2(10.5f, -0.55f);
+        if(blocksOnScreen.Count>1)
+        {
+            GameObject[] blockArray = blocksOnScreen.ToArray();
+            blockArray = blockArray.OrderBy(x => Mathf.Abs(x.transform.position.x - _player.transform.position.x)).ToArray();
+            position = new Vector2((blockArray[0].transform.position.x + blockArray[1].transform.position.x) / 2, 0f);
+            position.y = points_SpawnLocations[(int)NextBlockSpawnLocation].y;
+        }
+        else if (blocksOnScreen.Count == 1)
+        {
+            GameObject[] blockArray = blocksOnScreen.ToArray();
+            position = new Vector2((blockArray[0].transform.position.x + blockArray[1].transform.position.x) / 2, 0f);
+            position.y = points_SpawnLocations[(int)NextBlockSpawnLocation].y;
+        }
         Instantiate(prefab_Block, position, Quaternion.identity);
     }
 
