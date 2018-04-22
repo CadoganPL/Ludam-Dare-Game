@@ -60,7 +60,6 @@ public class AllCardActions : MonoBehaviour
 
         for (float i = 1; i >= 0; i -= 0.07f)
         {
-            print(i);
             yield return new WaitForSeconds(0.08f * Time.deltaTime);
 
             Color col = FlashBang.color;
