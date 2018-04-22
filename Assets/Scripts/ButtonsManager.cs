@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 using UnityEngine;
 using Utility;
+using System;
 
 public class ButtonsManager : MonoBehaviour
 {
@@ -67,23 +68,32 @@ public class ButtonsManager : MonoBehaviour
         print("Using Card One, adding timer");
         CardOne.MyWork();
 
+        DisableAllCards();
+    }
+
+    private void DisableAllCards() // using a card should disable ALL cards
+    {
         DisableCardToUse(CardOne);
+        DisableCardToUse(CardTwo);
+        DisableCardToUse(CardThree);
     }
 
     public void CardTwoButton()
     {
+        CardTwo.MyWork = FindObjectOfType<AllCardActions>().RunnerSpeedUp;
         print("Using Card Two, adding timer");
         CardTwo.MyWork();
 
-        DisableCardToUse(CardTwo);
+        DisableAllCards();
     }
 
     public void CardThreeButton()
     {
+        CardThree.MyWork = FindObjectOfType<AllCardActions>().SpawnLowObstacle;
         print("Using Card Three, adding timer");
         CardThree.MyWork();
 
-        DisableCardToUse(CardThree);
+        DisableAllCards();
     }
 
     private void DisableCardToUse(Card Card)

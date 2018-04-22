@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour {
+public class GameManager : MonoBehaviour
+{
 
     public static GameManager instance = null;
     //Obstacle
@@ -19,6 +20,11 @@ public class GameManager : MonoBehaviour {
     public int score;
     public bool gameStart, gamePause, gameOver;
 
+    /// <summary>
+    /// 0 : Bottom, 1 : Middle, 2 : Top, null : Not set(Give blocks Randomly)
+    /// </summary>
+    public int? NextBlockSpawnLocation = null;
+
     //UI
     public GameObject[] UIPanels;
 
@@ -31,14 +37,16 @@ public class GameManager : MonoBehaviour {
         _player = GameObject.Find("Player").GetComponent<PlayerController>();
     }
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start()
+    {
         ResetSceneVariables();
         PoolBlocks();
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update()
+    {
         UIUpdate();
         Spawner();
     }
@@ -59,7 +67,7 @@ public class GameManager : MonoBehaviour {
 
     void Spawner()
     {
-        if(GameInProgress())
+        if (GameInProgress())
         {
             timeToSpawn += Time.deltaTime;
             int i = 0;
@@ -70,7 +78,13 @@ public class GameManager : MonoBehaviour {
                     if (!blockPool[i].activeSelf)
                     {
                         int rand = Random.Range(0, 3);
-                        blockPool[i].transform.position = points_SpawnLocations[rand];
+                        blockPool[i].transform.position = NextBlockSpawnLocation == null ? points_SpawnLocations[rand] : points_SpawnLocations[(int)NextBlockSpawnLocation];
+
+                        if (NextBlockSpawnLocation != null)
+                        {
+                            NextBlockSpawnLocation = null;
+                        }
+
                         blockPool[i].SetActive(true);
                         break;
                     }
@@ -78,7 +92,7 @@ public class GameManager : MonoBehaviour {
                 timeToSpawn = 0;
             }
         }
- 
+
     }
 
     void ResetPoolObjects()
@@ -93,20 +107,20 @@ public class GameManager : MonoBehaviour {
     //UI
     private void UIUpdate()
     {
-        if(gameOver)
+        if (gameOver)
         {
-            if(!UIPanels[1].activeSelf)
+            if (!UIPanels[1].activeSelf)
             {
                 OpenUIPanel(1);
                 Time.timeScale = 0.0f;
             }
         }
     }
-    
+
     public void CloseAlUIPanels()
     {
         int i = 0;
-        for(i=0;i<UIPanels.Length;i++)
+        for (i = 0; i < UIPanels.Length; i++)
         {
             UIPanels[i].SetActive(false);
         }
@@ -140,6 +154,7 @@ public class GameManager : MonoBehaviour {
         gameStart = false;
         gamePause = false;
         gameOver = false;
+        NextBlockSpawnLocation = null;
         score = 0;
         globalSpeed = 1;
         timeToSpawn = 0;
