@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class GameManager : MonoBehaviour
     //Obstacle
     public GameObject prefab_Block;
     private List<GameObject> blockPool = new List<GameObject>();
+    private List<GameObject> blocksOnScreen = new List<GameObject>();
     public float spawnTimer;
     private float timeToSpawn;
     public float globalSpeed = 1f;
@@ -78,10 +80,12 @@ public class GameManager : MonoBehaviour
                     if (!blockPool[i].activeSelf)
                     {
                         int rand = Random.Range(0, 3);
-                        blockPool[i].transform.position = NextBlockSpawnLocation == null ? points_SpawnLocations[rand] : points_SpawnLocations[(int)NextBlockSpawnLocation];
+                        blockPool[i].transform.position = points_SpawnLocations[rand];
+                        blocksOnScreen.Add(blockPool[i]);
 
                         if (NextBlockSpawnLocation != null)
                         {
+                            SpawnCardObstacle();
                             NextBlockSpawnLocation = null;
                         }
 
@@ -93,6 +97,25 @@ public class GameManager : MonoBehaviour
             }
         }
 
+    }
+
+    private void SpawnCardObstacle()
+    {
+        GameObject[] blockArray = blocksOnScreen.ToArray();
+        blockArray = blockArray.OrderBy(x => Mathf.Abs(x.transform.position.x - _player.transform.position.x)).ToArray();
+<<<<<<< HEAD
+        Vector2 position = new Vector2((blockArray[0].transform.position.x + blockArray[1].transform.position.x) / 2, 0f);
+        position.y = points_SpawnLocations[(int)NextBlockSpawnLocation].y;
+=======
+        Vector2 position = new Vector2((blockArray[0].transform.position.x + blockArray[1].transform.position.x)/2,0f) ;
+>>>>>>> 3bbd6abfc6bb26c3b63e07e8aeaaf7586d29218a
+
+        Instantiate(prefab_Block, position, Quaternion.identity);
+    }
+
+    private void RemovedObstacleFromScreen(GameObject Obstacle)
+    {
+        blocksOnScreen.Remove(Obstacle);
     }
 
     void ResetPoolObjects()
