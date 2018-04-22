@@ -98,7 +98,6 @@ public class GameManager : MonoBehaviour {
             if(!UIPanels[1].activeSelf)
             {
                 OpenUIPanel(1);
-                Time.timeScale = 0.0f;
             }
         }
     }
@@ -145,7 +144,6 @@ public class GameManager : MonoBehaviour {
         timeToSpawn = 0;
         _player.ResetPlayer();
         ResetPoolObjects();
-        Time.timeScale = 1.0f;
     }
 
     public bool GameInProgress()

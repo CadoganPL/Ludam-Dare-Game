@@ -159,6 +159,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jumpForce: 4
   jumpVel: 0.2
+  slideTime: 1
+  jumpTime: 1
   groundLayer:
     serializedVersion: 2
     m_Bits: 256
