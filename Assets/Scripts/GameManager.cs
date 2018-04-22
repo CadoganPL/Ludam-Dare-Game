@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     //Obstacle
     public GameObject prefab_Block;
     private List<GameObject> blockPool = new List<GameObject>();
+    private List<GameObject> blocksOnScreen = new List<GameObject>();
     public float spawnTimer;
     private float timeToSpawn;
     public float globalSpeed = 1f;
@@ -78,10 +79,12 @@ public class GameManager : MonoBehaviour
                     if (!blockPool[i].activeSelf)
                     {
                         int rand = Random.Range(0, 3);
-                        blockPool[i].transform.position = NextBlockSpawnLocation == null ? points_SpawnLocations[rand] : points_SpawnLocations[(int)NextBlockSpawnLocation];
+                        blockPool[i].transform.position = points_SpawnLocations[rand];
+                        blocksOnScreen.Add(blockPool[i]);
 
                         if (NextBlockSpawnLocation != null)
                         {
+                            SpawnCardObstacle();
                             NextBlockSpawnLocation = null;
                         }
 
@@ -93,6 +96,18 @@ public class GameManager : MonoBehaviour
             }
         }
 
+    }
+
+    private void SpawnCardObstacle()
+    {
+        Vector2 position = (blocksOnScreen.Sort(x => Mathf.Abs(x.transform.position - _player.transform.position))[0].position.x + blocksOnScreen.Sort(x => distanceToPlayer)[1].position.x) / 2;
+
+        Instantiate(prefab_Block, (Vector3)points_SpawnLocations[(int)NextBlockSpawnLocation], Quaternion.identity);
+    }
+
+    private void RemovedObstacleFromScreen(GameObject Obstacle)
+    {
+        blocksOnScreen.Remove(Obstacle);
     }
 
     void ResetPoolObjects()
