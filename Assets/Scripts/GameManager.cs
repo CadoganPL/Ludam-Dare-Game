@@ -123,7 +123,7 @@ public class GameManager : MonoBehaviour
         }
         if(gameMode==GameMode.AI)
         {
-            AISpawnTime += Time.deltaTime;
+            AISpawnTimer += Time.deltaTime;
             if (AISpawnTimer >= AISpawnTime)
             {
                 int rand = UnityEngine.Random.Range(0, 3);
