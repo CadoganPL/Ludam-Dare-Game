@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 using System.Linq;
 
 public class GameManager : MonoBehaviour
@@ -18,6 +19,10 @@ public class GameManager : MonoBehaviour
     private List<GameObject> blocksOnScreen = new List<GameObject>();
     public float spawnTimer;
     private float timeToSpawn;
+    [SerializeField]
+    private float AISpawnTime;
+    private float  AISpawnTimer;
+    private Action[] AICards = new Action[3];
     public float globalSpeed = 1f;
     public Vector2[] points_SpawnLocations;
     //player
@@ -56,6 +61,10 @@ public class GameManager : MonoBehaviour
     {
         ResetEachRound();
         PoolBlocks();
+        AICards[0] = FindObjectOfType<AllCardActions>().Flashbang;
+        AICards[1] = FindObjectOfType<AllCardActions>().RunnerSpeedUp;
+        AICards[2] = FindObjectOfType<AllCardActions>().SpawnLowObstacle;
+
     }
 
     // Update is called once per frame
@@ -95,7 +104,7 @@ public class GameManager : MonoBehaviour
                 {
                     if (!blockPool[i].activeSelf)
                     {
-                        int rand = Random.Range(0, 3);
+                        int rand = UnityEngine.Random.Range(0, 3);
                         blockPool[i].transform.position = points_SpawnLocations[rand];
                         blocksOnScreen.Add(blockPool[i]);
 
@@ -110,6 +119,16 @@ public class GameManager : MonoBehaviour
                     }
                 }
                 timeToSpawn = 0;
+            }
+        }
+        if(gameMode==GameMode.AI)
+        {
+            AISpawnTime += Time.deltaTime;
+            if (AISpawnTimer >= AISpawnTime)
+            {
+                int rand = UnityEngine.Random.Range(0, 3);
+                AICards[rand]();
+                AISpawnTimer = 0;
             }
         }
 
