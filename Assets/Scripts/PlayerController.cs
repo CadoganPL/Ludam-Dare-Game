@@ -15,7 +15,9 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rig;
     private Transform _trans;
     private BoxCollider2D _col;
+    [SerializeField]
     private bool isJumping;
+    [SerializeField]
     private bool isSliding;
     public Transform _bodyTrans;
     [SerializeField]
@@ -48,7 +50,10 @@ public class PlayerController : MonoBehaviour
         if (!GameManager.instance.GameInProgress())
             return;
         if (isSliding)
+        {
+            anim.SetTrigger("slide");
             return;
+        }
         RaycastHit2D hit = Physics2D.Raycast(_trans.position, Vector2.down,0.6f,groundLayer);
         if(hit.collider!=null)
         {
@@ -68,7 +73,6 @@ public class PlayerController : MonoBehaviour
                 if(!isSliding)
                 {
                     Debug.Log("slide");
-                    anim.SetTrigger("slide");
                     StartCoroutine(IResetSlide(slideTime));
                     _col.offset = colliderValues[2];
                     _col.size = colliderValues[3];
