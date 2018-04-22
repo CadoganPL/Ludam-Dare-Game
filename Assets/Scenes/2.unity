@@ -167,6 +167,21 @@ Prefab:
       propertyPath: m_LocalPosition.y
       value: -0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 114120500374009176, guid: c972a8a5071df41409097ad5e0718736,
+        type: 2}
+      propertyPath: jumpForce
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 114120500374009176, guid: c972a8a5071df41409097ad5e0718736,
+        type: 2}
+      propertyPath: filter.useLayerMask
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114120500374009176, guid: c972a8a5071df41409097ad5e0718736,
+        type: 2}
+      propertyPath: filter.layerMask.m_Bits
+      value: 256
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c972a8a5071df41409097ad5e0718736, type: 2}
   m_IsPrefabParent: 0
@@ -396,6 +411,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ffb7a3b6c97ffe4a8a4da3fa4b46a3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1071822282 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114243592735634800, guid: 3d74bbd6d4700554b8c78cc64a5b2a39,
+    type: 2}
+  m_PrefabInternal: {fileID: 1163132140}
+  m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
 --- !u!1 &1159582634 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1654348838504592, guid: 3d74bbd6d4700554b8c78cc64a5b2a39,
@@ -498,21 +519,6 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 114132241571624340, guid: 3d74bbd6d4700554b8c78cc64a5b2a39,
-        type: 2}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1696555168}
-    - target: {fileID: 114132862988336614, guid: 3d74bbd6d4700554b8c78cc64a5b2a39,
-        type: 2}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1696555168}
-    - target: {fileID: 114325268794988906, guid: 3d74bbd6d4700554b8c78cc64a5b2a39,
-        type: 2}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1696555168}
     - target: {fileID: 114755167925493958, guid: 3d74bbd6d4700554b8c78cc64a5b2a39,
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -528,6 +534,26 @@ Prefab:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1696555170}
+    - target: {fileID: 114132241571624340, guid: 3d74bbd6d4700554b8c78cc64a5b2a39,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1696555168}
+    - target: {fileID: 114132862988336614, guid: 3d74bbd6d4700554b8c78cc64a5b2a39,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1696555168}
+    - target: {fileID: 114325268794988906, guid: 3d74bbd6d4700554b8c78cc64a5b2a39,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1696555168}
+    - target: {fileID: 114243592735634800, guid: 3d74bbd6d4700554b8c78cc64a5b2a39,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3d74bbd6d4700554b8c78cc64a5b2a39, type: 2}
   m_IsPrefabParent: 0
@@ -640,6 +666,8 @@ GameObject:
   - component: {fileID: 1696555169}
   - component: {fileID: 1696555168}
   - component: {fileID: 1696555170}
+  - component: {fileID: 1696555171}
+  - component: {fileID: 1696555172}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -701,6 +729,33 @@ MonoBehaviour:
   CardOne: {fileID: 756215805}
   CardTwo: {fileID: 2095599921}
   CardThree: {fileID: 533913539}
+--- !u!114 &1696555171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1696555167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f49369d6a523f94428faf119f13a0f74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FlashBang: {fileID: 1071822282}
+  TimeBetweenFlashbangFade: 0
+--- !u!114 &1696555172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1696555167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ccfabbec179ca349bb9eb6673e45aa3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lowObstacle: {fileID: 0}
+  mediumObstacle: {fileID: 0}
+  highObstacle: {fileID: 0}
 --- !u!1 &1914726734 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1039571327490562, guid: 3d74bbd6d4700554b8c78cc64a5b2a39,
