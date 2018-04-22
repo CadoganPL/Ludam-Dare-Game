@@ -113,6 +113,18 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &83431524 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114270083477594280, guid: 3d74bbd6d4700554b8c78cc64a5b2a39,
+    type: 2}
+  m_PrefabInternal: {fileID: 1163132140}
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+--- !u!114 &126690702 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114234797695252550, guid: 3d74bbd6d4700554b8c78cc64a5b2a39,
+    type: 2}
+  m_PrefabInternal: {fileID: 1163132140}
+  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!114 &533913539 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 114309047614765074, guid: 3d74bbd6d4700554b8c78cc64a5b2a39,
@@ -133,11 +145,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4269225169751810, guid: c972a8a5071df41409097ad5e0718736, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -2.29
       objectReference: {fileID: 0}
     - target: {fileID: 4269225169751810, guid: c972a8a5071df41409097ad5e0718736, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.95
       objectReference: {fileID: 0}
     - target: {fileID: 4269225169751810, guid: c972a8a5071df41409097ad5e0718736, type: 2}
       propertyPath: m_LocalPosition.z
@@ -554,9 +566,91 @@ Prefab:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114685027777344660, guid: 3d74bbd6d4700554b8c78cc64a5b2a39,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1696555168}
+    - target: {fileID: 114685027777344660, guid: 3d74bbd6d4700554b8c78cc64a5b2a39,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: PauseGame
+      objectReference: {fileID: 0}
+    - target: {fileID: 114656515284139394, guid: 3d74bbd6d4700554b8c78cc64a5b2a39,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1696555168}
+    - target: {fileID: 114656515284139394, guid: 3d74bbd6d4700554b8c78cc64a5b2a39,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: PauseGame
+      objectReference: {fileID: 0}
+    - target: {fileID: 114234797695252550, guid: 3d74bbd6d4700554b8c78cc64a5b2a39,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1696555168}
+    - target: {fileID: 114234797695252550, guid: 3d74bbd6d4700554b8c78cc64a5b2a39,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: RestartGame
+      objectReference: {fileID: 0}
+    - target: {fileID: 114350435590511424, guid: 3d74bbd6d4700554b8c78cc64a5b2a39,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1696555168}
+    - target: {fileID: 114350435590511424, guid: 3d74bbd6d4700554b8c78cc64a5b2a39,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: QuitGame
+      objectReference: {fileID: 0}
+    - target: {fileID: 114910571630380024, guid: 3d74bbd6d4700554b8c78cc64a5b2a39,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1696555168}
+    - target: {fileID: 114910571630380024, guid: 3d74bbd6d4700554b8c78cc64a5b2a39,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SelectMode
+      objectReference: {fileID: 0}
+    - target: {fileID: 114751525206234276, guid: 3d74bbd6d4700554b8c78cc64a5b2a39,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1696555168}
+    - target: {fileID: 114751525206234276, guid: 3d74bbd6d4700554b8c78cc64a5b2a39,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SelectMode
+      objectReference: {fileID: 0}
+    - target: {fileID: 114748865722138290, guid: 3d74bbd6d4700554b8c78cc64a5b2a39,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1696555168}
+    - target: {fileID: 114748865722138290, guid: 3d74bbd6d4700554b8c78cc64a5b2a39,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: QuitApp
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3d74bbd6d4700554b8c78cc64a5b2a39, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &1326357905 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114132862988336614, guid: 3d74bbd6d4700554b8c78cc64a5b2a39,
+    type: 2}
+  m_PrefabInternal: {fileID: 1163132140}
+  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+--- !u!114 &1405904042 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114924231429550652, guid: 3d74bbd6d4700554b8c78cc64a5b2a39,
+    type: 2}
+  m_PrefabInternal: {fileID: 1163132140}
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!1 &1651050300
 GameObject:
   m_ObjectHideFlags: 0
@@ -694,7 +788,9 @@ MonoBehaviour:
   - {x: 14.6, y: -0.7}
   - {x: 14.6, y: 0.2}
   - {x: 14.6, y: 1.2}
-  score: 0
+  score:
+  - 0
+  - 0
   gameStart: 0
   gamePause: 0
   gameOver: 0
@@ -702,6 +798,11 @@ MonoBehaviour:
   - {fileID: 1914726734}
   - {fileID: 1159582634}
   - {fileID: 661973456}
+  - {fileID: 1159582634}
+  ScoreText: {fileID: 1405904042}
+  infoText: {fileID: 83431524}
+  switchButton: {fileID: 1326357905}
+  restartButton: {fileID: 126690702}
 --- !u!4 &1696555169
 Transform:
   m_ObjectHideFlags: 0

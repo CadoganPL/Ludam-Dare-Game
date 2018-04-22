@@ -221,6 +221,8 @@ public class GameManager : MonoBehaviour
         OpenUIPanel(0);
         ResetEachGame();
         ResetEachRound();
+        if (Time.timeScale == 0)
+            Time.timeScale = 1;
     }
 
     public void RestartGame()
