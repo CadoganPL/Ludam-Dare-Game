@@ -71,11 +71,18 @@ public class ButtonsManager : MonoBehaviour
         DisableAllCards();
     }
 
-    private void DisableAllCards() // using a card should disable ALL cards
+    public void DisableAllCards() // using a card should disable ALL cards
     {
         DisableCardToUse(CardOne);
         DisableCardToUse(CardTwo);
         DisableCardToUse(CardThree);
+    }
+
+    public void EnableAllCards() 
+    {
+        ReEnableCardToUse(CardOne);
+        ReEnableCardToUse(CardTwo);
+        ReEnableCardToUse(CardThree);
     }
 
     public void CardTwoButton()

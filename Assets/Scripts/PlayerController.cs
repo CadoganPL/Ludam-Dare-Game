@@ -53,13 +53,13 @@ public class PlayerController : MonoBehaviour
             {
                 anim.SetBool("run", true);
             }
-            if (Input.GetKeyUp(KeyCode.W))
+            if (Input.GetKeyDown(KeyCode.Space))
             {
                 anim.SetBool("run", false);
                 anim.SetTrigger("jumpUp");
                 rig.AddForce(jumpForce * Vector2.up);
             }
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.LeftControl))
             {
                 if (!isSliding)
                 {
@@ -71,7 +71,7 @@ public class PlayerController : MonoBehaviour
                     isSliding = true;
                 }
             }
-            if (Input.GetKeyUp(KeyCode.Space))
+            if (Input.GetKeyUp(KeyCode.LeftControl))
             {
                 if (isSliding)
                 {
