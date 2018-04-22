@@ -24,10 +24,18 @@ public class ObstacleMover : MonoBehaviour {
 
     void FixedUpdate()
     {
+        if(GameManager.instance.gameOver)
+        {
+            if(rig.velocity!=Vector2.zero)
+            {
+                rig.velocity = Vector2.zero;
+            }
+        }
         if(GameManager.instance.GameInProgress())
         {
             rig.velocity = Vector2.left * speed * GameManager.instance.globalSpeed;
         }
+        
     }
 
     void OnTriggerEnter2D(Collider2D other)

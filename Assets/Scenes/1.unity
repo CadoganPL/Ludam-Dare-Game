@@ -250,6 +250,25 @@ Prefab:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1696555168}
+    - target: {fileID: 224753756012229696, guid: 3d74bbd6d4700554b8c78cc64a5b2a39,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.001953125
+      objectReference: {fileID: 0}
+    - target: {fileID: 224685967925009966, guid: 3d74bbd6d4700554b8c78cc64a5b2a39,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.001953125
+      objectReference: {fileID: 0}
+    - target: {fileID: 224691172876695158, guid: 3d74bbd6d4700554b8c78cc64a5b2a39,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.001953125
+      objectReference: {fileID: 0}
+    - target: {fileID: 1183504032972642, guid: 3d74bbd6d4700554b8c78cc64a5b2a39, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3d74bbd6d4700554b8c78cc64a5b2a39, type: 2}
   m_IsPrefabParent: 0
@@ -262,11 +281,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4269225169751810, guid: c972a8a5071df41409097ad5e0718736, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -2.29
       objectReference: {fileID: 0}
     - target: {fileID: 4269225169751810, guid: c972a8a5071df41409097ad5e0718736, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -2.1
       objectReference: {fileID: 0}
     - target: {fileID: 4269225169751810, guid: c972a8a5071df41409097ad5e0718736, type: 2}
       propertyPath: m_LocalPosition.z
@@ -639,9 +658,9 @@ MonoBehaviour:
   spawnTimer: 3
   globalSpeed: 1
   points_SpawnLocations:
+  - {x: 14.6, y: -0.4}
   - {x: 14.6, y: -0.7}
-  - {x: 14.6, y: 0.2}
-  - {x: 14.6, y: 1.2}
+  - {x: 14.6, y: -1}
   score: 0
   gameStart: 0
   gamePause: 0

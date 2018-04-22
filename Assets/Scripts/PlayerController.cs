@@ -6,15 +6,23 @@ public class PlayerController : MonoBehaviour
 {
     public float jumpForce;
     public float jumpVel;
+    [SerializeField]
+    private float slideTime;
+    [SerializeField]
+    private float jumpTime;
     public LayerMask groundLayer;
     private Vector2 pos_Start;
     private Rigidbody2D rig;
     private Transform _trans;
     private BoxCollider2D _col;
+    [SerializeField]
     private bool isJumping;
+    [SerializeField]
+    private bool isSliding;
     public Transform _bodyTrans;
+    [SerializeField]
+    private Animator anim;
     //placeholder values before art
-    public Vector3[] playerTransforms;
     public Vector2[] colliderValues;
 
     void Awake()
@@ -28,6 +36,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         pos_Start = _trans.position;
+        anim.SetTrigger("idle");
     }
 
     // Update is called once per frame
@@ -38,41 +47,62 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (!GameManager.instance.GameInProgress())
+            return;
+        if (isSliding)
+        {
+            anim.SetTrigger("slide");
+            return;
+        }
         RaycastHit2D hit = Physics2D.Raycast(_trans.position, Vector2.down,0.6f,groundLayer);
         if(hit.collider!=null)
         {
+            Debug.Log("run");
+            anim.SetTrigger("run");
             isJumping = false;
 
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.W))
             {
+                anim.SetTrigger("jumpUp");
+                StartCoroutine(IResetJump(jumpTime));
                 rig.velocity += jumpForce * Vector2.up;
                 isJumping = true;
             }
-            if (Input.GetKeyDown(KeyCode.LeftControl))
+            if (Input.GetKeyDown(KeyCode.Space))
             {
-                _col.offset = colliderValues[2];
-                _col.size = colliderValues[3];
-                _bodyTrans.localPosition = playerTransforms[2];
-                _bodyTrans.localScale = playerTransforms[3];
-
+                if(!isSliding)
+                {
+                    Debug.Log("slide");
+                    StartCoroutine(IResetSlide(slideTime));
+                    _col.offset = colliderValues[2];
+                    _col.size = colliderValues[3];
+                    isSliding = true;
+                }
             }
-            if (Input.GetKeyUp(KeyCode.LeftControl))
+            if (Input.GetKeyUp(KeyCode.Space))
             {
-                _col.offset = colliderValues[0];
-                _col.size = colliderValues[1];
-                _bodyTrans.localPosition = playerTransforms[0];
-                _bodyTrans.localScale = playerTransforms[1];
+                if (isSliding)
+                {
+                    StopCoroutine(IResetSlide(slideTime));
+                    isSliding = false;
+                    Debug.Log("run2");
+
+                    anim.SetTrigger("run");
+                }
+
             }
         }
         if(isJumping)
         {
-            if (Input.GetKey(KeyCode.Space))
+            if (Input.GetKey(KeyCode.W))
             {
                 rig.velocity += jumpVel * Vector2.up;
             }
-            if (Input.GetKeyUp(KeyCode.Space))
+            if (Input.GetKeyUp(KeyCode.W))
             {
+                StopCoroutine(IResetJump(jumpTime));
                 isJumping = false;
+                anim.SetTrigger("jumpDown");
             }
         }
     }
@@ -82,6 +112,7 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("Obstacle"))
         {
             GameManager.instance.gameOver = true;
+            anim.SetTrigger("dead");
         }
     }
 
@@ -90,5 +121,24 @@ public class PlayerController : MonoBehaviour
         rig.velocity = Vector2.zero;
         _trans.position = pos_Start;
         isJumping = false;
+        anim.SetTrigger("idle");
+    }
+
+    IEnumerator IResetSlide(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        isSliding = false;
+        _col.offset = colliderValues[0];
+        _col.size = colliderValues[1];
+        anim.SetTrigger("run");
+        Debug.Log("run3");
+
+    }
+
+    IEnumerator IResetJump(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        isJumping = false;
+        anim.SetTrigger("jumpDown");
     }
 }
