@@ -9,8 +9,8 @@ public class GameManager : MonoBehaviour
 
     public static GameManager instance = null;
     //modes
-    enum GameMode {Local,Network };
-    int gameMode = 0;
+    enum GameMode {Local,Multiplayer,AI };
+    GameMode gameMode = 0;
     int gameRound = 0;
     //Obstacle
     public GameObject prefab_Block;
@@ -158,38 +158,49 @@ public class GameManager : MonoBehaviour
     //0-local , 1- multiplayer
     public void SelectMode(int a)
     {
-        gameMode = a;
+        gameMode = (GameMode)a;
         StartGame();
     }
 
 
     void SetGameOverScreen()
     {
-        if(gameRound==0)
+        if(gameMode==GameMode.AI)
         {
             infoText.text = "Player 1 survived " + Mathf.Round(score[gameRound]) + " seconds";
-            switchButton.gameObject.SetActive(true);
-            restartButton.gameObject.SetActive(false);
-            gameRound++;
-        }
-        else
-        {
-            if(score[0]>score[1])
-            {
-                infoText.text = "Player 1 won";
-            }
-            else if (score[0] == score[1])
-            {
-                infoText.text = "Game Tie";
-            }
-            else
-            {
-                infoText.text = "Player 2 won";
-            }
             switchButton.gameObject.SetActive(false);
             restartButton.gameObject.SetActive(true);
             ResetEachGame();
         }
+        else
+        {
+            if (gameRound == 0)
+            {
+                infoText.text = "Player 1 survived " + Mathf.Round(score[gameRound]) + " seconds";
+                switchButton.gameObject.SetActive(true);
+                restartButton.gameObject.SetActive(false);
+                gameRound++;
+            }
+            else
+            {
+                if (score[0] > score[1])
+                {
+                    infoText.text = "Player 1 won";
+                }
+                else if (score[0] == score[1])
+                {
+                    infoText.text = "Game Tie";
+                }
+                else
+                {
+                    infoText.text = "Player 2 won";
+                }
+                switchButton.gameObject.SetActive(false);
+                restartButton.gameObject.SetActive(true);
+                ResetEachGame();
+            }
+        }
+    
     }
 
     public void CloseAlUIPanels()

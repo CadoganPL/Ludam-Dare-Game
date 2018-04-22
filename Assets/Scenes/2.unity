@@ -182,7 +182,7 @@ Prefab:
     - target: {fileID: 114120500374009176, guid: c972a8a5071df41409097ad5e0718736,
         type: 2}
       propertyPath: jumpForce
-      value: 50
+      value: 400
       objectReference: {fileID: 0}
     - target: {fileID: 114120500374009176, guid: c972a8a5071df41409097ad5e0718736,
         type: 2}
@@ -796,7 +796,7 @@ MonoBehaviour:
   gameOver: 0
   UIPanels:
   - {fileID: 1914726734}
-  - {fileID: 1159582634}
+  - {fileID: 1727086371}
   - {fileID: 661973456}
   - {fileID: 1159582634}
   ScoreText: {fileID: 1405904042}
@@ -857,6 +857,11 @@ MonoBehaviour:
   lowObstacle: {fileID: 0}
   mediumObstacle: {fileID: 0}
   highObstacle: {fileID: 0}
+--- !u!1 &1727086371 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1326464617344868, guid: 3d74bbd6d4700554b8c78cc64a5b2a39,
+    type: 2}
+  m_PrefabInternal: {fileID: 1163132140}
 --- !u!1 &1914726734 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1039571327490562, guid: 3d74bbd6d4700554b8c78cc64a5b2a39,
