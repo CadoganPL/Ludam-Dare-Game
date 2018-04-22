@@ -103,8 +103,12 @@ public class GameManager : MonoBehaviour
     {
         GameObject[] blockArray = blocksOnScreen.ToArray();
         blockArray = blockArray.OrderBy(x => Mathf.Abs(x.transform.position.x - _player.transform.position.x)).ToArray();
+<<<<<<< HEAD
         Vector2 position = new Vector2((blockArray[0].transform.position.x + blockArray[1].transform.position.x) / 2, 0f);
         position.y = points_SpawnLocations[(int)NextBlockSpawnLocation].y;
+=======
+        Vector2 position = new Vector2((blockArray[0].transform.position.x + blockArray[1].transform.position.x)/2,0f) ;
+>>>>>>> 3bbd6abfc6bb26c3b63e07e8aeaaf7586d29218a
 
         Instantiate(prefab_Block, position, Quaternion.identity);
     }
