@@ -67,7 +67,7 @@ public class PlayerController : MonoBehaviour
                     anim.SetTrigger("slide");
                     StartCoroutine(IResetSlide(slideTime));
                     _col.offset = colliderValues[1];
-                    _col.radius = .13f;
+                    _col.radius = .06f;
                     isSliding = true;
                 }
             }
@@ -78,7 +78,7 @@ public class PlayerController : MonoBehaviour
                     StopCoroutine(IResetSlide(slideTime));
                     isSliding = false;
                     _col.offset = colliderValues[0];
-                    _col.radius = .3f;
+                    _col.radius = .35f;
                     anim.SetTrigger("slideend");
                 }
 
