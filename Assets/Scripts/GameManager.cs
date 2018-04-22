@@ -1,11 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
 
     public static GameManager instance = null;
+    //modes
+    enum GameMode {Local,Network };
+    int gameMode = 0;
+    int gameRound = 0;
     //Obstacle
     public GameObject prefab_Block;
     private List<GameObject> blockPool = new List<GameObject>();
@@ -17,7 +22,7 @@ public class GameManager : MonoBehaviour
     private PlayerController _player;
 
     //States
-    public int score;
+    public float[] score = new float[2];
     public bool gameStart, gamePause, gameOver;
 
     /// <summary>
@@ -27,7 +32,14 @@ public class GameManager : MonoBehaviour
 
     //UI
     public GameObject[] UIPanels;
-
+    [SerializeField]
+    private Text ScoreText;
+    [SerializeField]
+    private Text infoText;
+    [SerializeField]
+    private Button switchButton;
+    [SerializeField]
+    private Button restartButton;
     void Awake()
     {
         if (instance == null)
@@ -40,7 +52,7 @@ public class GameManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        ResetSceneVariables();
+        ResetEachRound();
         PoolBlocks();
     }
 
@@ -49,6 +61,10 @@ public class GameManager : MonoBehaviour
     {
         UIUpdate();
         Spawner();
+        if (GameInProgress())
+        {
+            score[gameRound] += Time.deltaTime;
+        }
     }
 
 
@@ -112,7 +128,49 @@ public class GameManager : MonoBehaviour
             if (!UIPanels[1].activeSelf)
             {
                 OpenUIPanel(1);
+                SetGameOverScreen();
             }
+        }
+        else
+        {
+            ScoreText.text = "Time: " + Mathf.Round(score[gameRound]);
+        }
+    }
+
+    //0-local , 1- multiplayer
+    public void SelectMode(int a)
+    {
+        gameMode = a;
+        StartGame();
+    }
+
+
+    void SetGameOverScreen()
+    {
+        if(gameRound==0)
+        {
+            infoText.text = "Player 1 survived " + Mathf.Round(score[gameRound]) + " seconds";
+            switchButton.gameObject.SetActive(true);
+            restartButton.gameObject.SetActive(false);
+            gameRound++;
+        }
+        else
+        {
+            if(score[0]>score[1])
+            {
+                infoText.text = "Player 1 won";
+            }
+            else if (score[0] == score[1])
+            {
+                infoText.text = "Game Tie";
+            }
+            else
+            {
+                infoText.text = "Player 2 won";
+            }
+            switchButton.gameObject.SetActive(false);
+            restartButton.gameObject.SetActive(true);
+            ResetEachGame();
         }
     }
 
@@ -134,31 +192,64 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     {
         OpenUIPanel(2);
-        ResetSceneVariables();
+        ResetEachGame();
+        ResetEachRound();
         gameStart = true;
+
     }
 
     public void QuitGame()
     {
-        CloseAlUIPanels();
+        OpenUIPanel(0);
+        ResetEachGame();
+        ResetEachRound();
     }
 
     public void RestartGame()
     {
-        StartGame();
+        OpenUIPanel(2);
+        ResetEachRound();
+        gameStart = true;
     }
 
-    private void ResetSceneVariables()
+    public void QuitApp()
+    {
+        Application.Quit();
+    }
+
+    public void PauseGame()
+    {
+        if(GameInProgress())
+        {
+            OpenUIPanel(3);
+            gamePause = true;
+            Time.timeScale = 0;
+        }
+        else
+        {
+            OpenUIPanel(2);
+            gamePause = false;
+            Time.timeScale = 1;
+        }
+    }
+
+    private void ResetEachRound()
     {
         gameStart = false;
         gamePause = false;
         gameOver = false;
         NextBlockSpawnLocation = null;
-        score = 0;
         globalSpeed = 1;
         timeToSpawn = 0;
         _player.ResetPlayer();
         ResetPoolObjects();
+    }
+
+    private void ResetEachGame()
+    {
+        score[0] = 0;
+        score[1] = 0;
+        gameRound = 0;
     }
 
     public bool GameInProgress()
