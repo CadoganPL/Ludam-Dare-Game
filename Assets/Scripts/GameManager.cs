@@ -86,7 +86,7 @@ public class GameManager : MonoBehaviour
     void PoolBlocks()
     {
         int i = 0;
-        for (i = 0; i < 10; i++)
+        for (i = 0; i < 15; i++)
         {
             GameObject go = Instantiate(prefab_Block, points_SpawnLocations[0], Quaternion.identity) as GameObject;
             go.name = "Block_" + i;
@@ -156,7 +156,15 @@ public class GameManager : MonoBehaviour
                 position.x += 3;
             }
         }
-        Instantiate(prefab_Block, position, Quaternion.identity);
+        int i = 0;
+        for (i = 0; i < blockPool.Count; i++)
+        {
+            if (!blockPool[i].activeSelf)
+            {
+                blockPool[i].transform.position = position;
+                break;
+            }
+        }
     }
 
     private void RemovedObstacleFromScreen(GameObject Obstacle)
