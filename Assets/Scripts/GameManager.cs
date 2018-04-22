@@ -47,6 +47,7 @@ public class GameManager : MonoBehaviour
     private Button switchButton;
     [SerializeField]
     private Button restartButton;
+    private ButtonsManager btnManager;
     void Awake()
     {
         if (instance == null)
@@ -54,6 +55,8 @@ public class GameManager : MonoBehaviour
         else if (instance != this)
             Destroy(gameObject);
         _player = GameObject.Find("Player").GetComponent<PlayerController>();
+        btnManager = GetComponent<ButtonsManager>();
+
     }
 
     // Use this for initialization
@@ -137,18 +140,21 @@ public class GameManager : MonoBehaviour
     private void SpawnCardObstacle()
     {
         Vector2 position = new Vector2(10.5f, -0.55f);
-        if(blocksOnScreen.Count>1)
+        float yPos = points_SpawnLocations[(int)NextBlockSpawnLocation].y;
+        position.y = yPos;
+        if (blocksOnScreen.Count>1)
         {
             GameObject[] blockArray = blocksOnScreen.ToArray();
             blockArray = blockArray.OrderBy(x => Mathf.Abs(x.transform.position.x - _player.transform.position.x)).ToArray();
-            position = new Vector2((blockArray[0].transform.position.x + blockArray[1].transform.position.x) / 2, 0f);
-            position.y = points_SpawnLocations[(int)NextBlockSpawnLocation].y;
+            position.x = (blockArray[0].transform.position.x + blockArray[1].transform.position.x) / 2;
         }
         else if (blocksOnScreen.Count == 1)
         {
             GameObject[] blockArray = blocksOnScreen.ToArray();
-            position = new Vector2((blockArray[0].transform.position.x + blockArray[1].transform.position.x) / 2, 0f);
-            position.y = points_SpawnLocations[(int)NextBlockSpawnLocation].y;
+            if(Vector2.Distance(blockArray[0].transform.position,position)<3)
+            {
+                position.x += 3;
+            }
         }
         Instantiate(prefab_Block, position, Quaternion.identity);
     }
@@ -252,6 +258,19 @@ public class GameManager : MonoBehaviour
         OpenUIPanel(2);
         ResetEachGame();
         ResetEachRound();
+        if(gameMode==GameMode.AI)
+        {
+            btnManager.CardOne.MyButton.interactable = false;
+            btnManager.CardTwo.MyButton.interactable = false;
+            btnManager.CardThree.MyButton.interactable = false;
+
+        }
+        else
+        {
+            btnManager.CardOne.MyButton.interactable = true;
+            btnManager.CardTwo.MyButton.interactable = true;
+            btnManager.CardThree.MyButton.interactable = true;
+        }
         gameStart = true;
 
     }
