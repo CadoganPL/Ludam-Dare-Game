@@ -335,6 +335,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114120500374009176, guid: c972a8a5071df41409097ad5e0718736,
+        type: 2}
+      propertyPath: jumpForce
+      value: 400
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c972a8a5071df41409097ad5e0718736, type: 2}
   m_IsPrefabParent: 0
@@ -688,8 +693,8 @@ MonoBehaviour:
   spawnTimer: 3
   globalSpeed: 1
   points_SpawnLocations:
-  - {x: 14.6, y: -0.4}
-  - {x: 14.6, y: -0.7}
+  - {x: 14.6, y: -0.25}
+  - {x: 14.6, y: -0.55}
   - {x: 14.6, y: -1}
   score:
   - 0
