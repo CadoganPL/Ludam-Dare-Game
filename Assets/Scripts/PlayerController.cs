@@ -54,43 +54,45 @@ public class PlayerController : MonoBehaviour
             anim.SetTrigger("slide");
             return;
         }
-        RaycastHit2D hit = Physics2D.Raycast(_trans.position, Vector2.down,0.6f,groundLayer);
+        RaycastHit2D hit = Physics2D.Raycast(_trans.position, Vector2.down,0.4f,groundLayer);
         if(hit.collider!=null)
         {
-            Debug.Log("run");
-            anim.SetTrigger("run");
+            Debug.Log("hiitttig");
+            anim.SetBool("run", true);
             isJumping = false;
-
-            if (Input.GetKeyDown(KeyCode.W))
+            if (!isJumping)
             {
-                anim.SetTrigger("jumpUp");
-                StartCoroutine(IResetJump(jumpTime));
-                rig.velocity += jumpForce * Vector2.up;
-                isJumping = true;
-            }
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                if(!isSliding)
+                if (Input.GetKeyDown(KeyCode.W))
                 {
-                    Debug.Log("slide");
-                    StartCoroutine(IResetSlide(slideTime));
-                    _col.offset = colliderValues[2];
-                    _col.size = colliderValues[3];
-                    isSliding = true;
+                    anim.SetTrigger("jumpUp");
+                    anim.SetBool("run", false);
+                    StartCoroutine(IResetJump(jumpTime));
+                    rig.velocity += jumpForce * Vector2.up;
+                    isJumping = true;
                 }
-            }
-            if (Input.GetKeyUp(KeyCode.Space))
-            {
-                if (isSliding)
+                if (Input.GetKeyDown(KeyCode.Space))
                 {
-                    StopCoroutine(IResetSlide(slideTime));
-                    isSliding = false;
-                    Debug.Log("run2");
-
-                    anim.SetTrigger("run");
+                    if (!isSliding)
+                    {
+                        Debug.Log("slide");
+                        anim.SetBool("run", false);
+                        StartCoroutine(IResetSlide(slideTime));
+                        _col.offset = colliderValues[2];
+                        _col.size = colliderValues[3];
+                        isSliding = true;
+                    }
                 }
+                if (Input.GetKeyUp(KeyCode.Space))
+                {
+                    if (isSliding)
+                    {
+                        StopCoroutine(IResetSlide(slideTime));
+                        isSliding = false;
+                        anim.SetBool("run",true);
+                    }
 
-            }
+                }
+            }        
         }
         if(isJumping)
         {
@@ -130,8 +132,7 @@ public class PlayerController : MonoBehaviour
         isSliding = false;
         _col.offset = colliderValues[0];
         _col.size = colliderValues[1];
-        anim.SetTrigger("run");
-        Debug.Log("run3");
+        anim.SetBool("run", true);
 
     }
 
