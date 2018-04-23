@@ -63,25 +63,34 @@ public class ButtonsManager : MonoBehaviour
 
     public void CardOneButton()
     {
-        CardOne.MyWork = FindObjectOfType<AllCardActions>().Flashbang;
+        CardOne.MyWork = FindObjectOfType<AllCardActions>().GetRandomAction(); ;
 
         print("Using Card One, adding timer");
+        Debug.Log("Card One action: " + CardOne.MyWork.Method.ToString());
         CardOne.MyWork();
 
         DisableAllCards();
     }
 
-    private void DisableAllCards() // using a card should disable ALL cards
+    public void DisableAllCards() // using a card should disable ALL cards
     {
         DisableCardToUse(CardOne);
         DisableCardToUse(CardTwo);
         DisableCardToUse(CardThree);
     }
 
+    public void EnableAllCards() 
+    {
+        ReEnableCardToUse(CardOne);
+        ReEnableCardToUse(CardTwo);
+        ReEnableCardToUse(CardThree);
+    }
+
     public void CardTwoButton()
     {
-        CardTwo.MyWork = FindObjectOfType<AllCardActions>().RunnerSpeedUp;
+        CardTwo.MyWork = FindObjectOfType<AllCardActions>().GetRandomAction();
         print("Using Card Two, adding timer");
+        Debug.Log("Card Two action: " + CardTwo.MyWork.Method.ToString());
         CardTwo.MyWork();
 
         DisableAllCards();
@@ -89,7 +98,8 @@ public class ButtonsManager : MonoBehaviour
 
     public void CardThreeButton()
     {
-        CardThree.MyWork = FindObjectOfType<AllCardActions>().SpawnLowObstacle;
+        CardThree.MyWork = FindObjectOfType<AllCardActions>().GetRandomAction();
+        Debug.Log("Card Three action: " + CardThree.MyWork.Method.ToString());
         print("Using Card Three, adding timer");
         CardThree.MyWork();
 
