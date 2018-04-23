@@ -578,7 +578,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4269225169751810, guid: c972a8a5071df41409097ad5e0718736, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -0.95
+      value: -1.012
       objectReference: {fileID: 0}
     - target: {fileID: 4269225169751810, guid: c972a8a5071df41409097ad5e0718736, type: 2}
       propertyPath: m_LocalPosition.z
@@ -608,6 +608,26 @@ Prefab:
         type: 2}
       propertyPath: jumpForce
       value: 235
+      objectReference: {fileID: 0}
+    - target: {fileID: 114120500374009176, guid: c972a8a5071df41409097ad5e0718736,
+        type: 2}
+      propertyPath: colliderValues.Array.data[1].y
+      value: -0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 58721196388704896, guid: c972a8a5071df41409097ad5e0718736,
+        type: 2}
+      propertyPath: m_Offset.x
+      value: -0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 114120500374009176, guid: c972a8a5071df41409097ad5e0718736,
+        type: 2}
+      propertyPath: colliderValues.Array.data[1].x
+      value: 0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 114120500374009176, guid: c972a8a5071df41409097ad5e0718736,
+        type: 2}
+      propertyPath: colliderValues.Array.data[0].y
+      value: -0.01
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c972a8a5071df41409097ad5e0718736, type: 2}
@@ -1256,7 +1276,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 5.5158825, y: 0.6}
+  m_Size: {x: 5.5158825, y: 0.4}
   m_EdgeRadius: 0
 --- !u!212 &1651050302
 SpriteRenderer:
@@ -1423,15 +1443,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65d468633cc115f47925e54235aa2bf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab_Block: {fileID: 1353534394919354, guid: ef6d2374b40f6bb41881f02570522391,
+  prefab_block: {fileID: 1353534394919354, guid: ef6d2374b40f6bb41881f02570522391,
+    type: 2}
+  prefab_obstacle_low: {fileID: 1649482338445014, guid: db2532dcf66d9e24c99862034d78db5b,
+    type: 2}
+  prefab_obstacle_medium: {fileID: 1902611006997972, guid: fbde5bd84ef0f8742840a103b143409c,
+    type: 2}
+  prefab_obstacle_high: {fileID: 1391309175761874, guid: 95c1af50c48a02541b1cfc54bf914f4c,
     type: 2}
   spawnTimer: 2
   AISpawnTime: 2
   globalSpeed: 1
   points_SpawnLocations:
   - {x: 14.6, y: -1.05}
-  - {x: 14.6, y: -0.55}
-  - {x: 14.6, y: -0.45}
+  - {x: 14.6, y: -0.65}
+  - {x: 14.6, y: -0.22}
   score:
   - 0
   - 0

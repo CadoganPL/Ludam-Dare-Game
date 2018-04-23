@@ -14,7 +14,10 @@ public class GameManager : MonoBehaviour
     GameMode gameMode = 0;
     int gameRound = 0;
     //Obstacle
-    public GameObject prefab_Block;
+    public GameObject prefab_block;
+    public GameObject prefab_obstacle_low;
+    public GameObject prefab_obstacle_medium;
+    public GameObject prefab_obstacle_high;
     private List<GameObject> blockPool = new List<GameObject>();
     private List<GameObject> blocksOnScreen = new List<GameObject>();
     public float spawnTimer;
@@ -92,7 +95,7 @@ public class GameManager : MonoBehaviour
         int i = 0;
         for (i = 0; i < 15; i++)
         {
-            GameObject go = Instantiate(prefab_Block, points_SpawnLocations[0], Quaternion.identity) as GameObject;
+            GameObject go = Instantiate(prefab_block, points_SpawnLocations[0], Quaternion.identity) as GameObject;
             go.name = "Block_" + i;
             go.SetActive(false);
             blockPool.Add(go);
@@ -113,6 +116,25 @@ public class GameManager : MonoBehaviour
                     {
                         int rand = UnityEngine.Random.Range(0, 3);
                         blockPool[i].transform.position = points_SpawnLocations[rand];
+                        if (blockPool[i].transform.childCount == 0)
+                        {
+                            switch (rand)
+                            {
+                                case 0:
+                                    Instantiate(prefab_obstacle_low, Vector2.zero, Quaternion.identity).transform.parent = blockPool[i].transform;
+                                    break;
+                                case 1:
+                                    Instantiate(prefab_obstacle_medium, Vector2.zero, Quaternion.identity).transform.parent = blockPool[i].transform;
+                                    break;
+                                case 2:
+                                    Instantiate(prefab_obstacle_high, Vector2.zero, Quaternion.identity).transform.parent = blockPool[i].transform;
+                                    break;
+                                default:
+                                    break;
+                            }
+                            blockPool[i].transform.GetChild(0).transform.localPosition = Vector2.zero;
+                            blockPool[i].transform.GetChild(0).gameObject.tag = blockPool[i].gameObject.tag;
+                        }
                         blocksOnScreen.Add(blockPool[i]);
 
                         //if (NextBlockSpawnLocation != null)
@@ -177,10 +199,13 @@ public class GameManager : MonoBehaviour
 
     void ResetPoolObjects()
     {
-        int i = 0;
-        for (i = 0; i < blockPool.Count; i++)
+        foreach (var item in blockPool)
         {
-            blockPool[i].SetActive(false);
+            item.SetActive(false);
+            if(item.transform.childCount != 0)
+            {
+                Destroy(item.transform.GetChild(0).gameObject);
+            }
         }
         foreach (var item in GameObject.FindGameObjectsWithTag("CardObstacle"))
         {
