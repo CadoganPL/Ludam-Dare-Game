@@ -65,11 +65,13 @@ public class GameManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        GetComponent<BGScroll>().fencebg_StartPos = GetComponent<BGScroll>().fenceBG.position;
         ResetEachRound();
         PoolBlocks();
         AICards[0] = FindObjectOfType<AllCardActions>().Flashbang;
         AICards[1] = FindObjectOfType<AllCardActions>().RunnerSpeedUp;
         AICards[2] = FindObjectOfType<AllCardActions>().SpawnLowObstacle;
+
     }
 
     // Update is called once per frame

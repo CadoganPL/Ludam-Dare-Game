@@ -10,14 +10,12 @@ public class BGScroll : MonoBehaviour {
     private float offsetspeed;
     [SerializeField]
     private GameObject mountain;
-    [SerializeField]
-    private Transform fenceBG;
-    private Vector2 fencebg_StartPos;
+    public Transform fenceBG;
+    public Vector2 fencebg_StartPos;
 
 
     // Use this for initialization
     void Start () {
-        fencebg_StartPos = fenceBG.position;
 
     }
 
