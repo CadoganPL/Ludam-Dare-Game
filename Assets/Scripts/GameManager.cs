@@ -31,10 +31,6 @@ public class GameManager : MonoBehaviour
     //player
     private PlayerController _player;
 
-    //background
-    [SerializeField]
-    private Transform fenceBG;
-    private Vector2 fencebg_StartPos;
     //States
     public float[] score = new float[2];
     public bool gameStart, gamePause, gameOver;
@@ -74,7 +70,6 @@ public class GameManager : MonoBehaviour
         AICards[0] = FindObjectOfType<AllCardActions>().Flashbang;
         AICards[1] = FindObjectOfType<AllCardActions>().RunnerSpeedUp;
         AICards[2] = FindObjectOfType<AllCardActions>().SpawnLowObstacle;
-        fencebg_StartPos = fenceBG.localPosition;
     }
 
     // Update is called once per frame
@@ -367,7 +362,7 @@ public class GameManager : MonoBehaviour
         timeToSpawn = 0;
         _player.ResetPlayer();
         ResetPoolObjects();
-        fenceBG.position = fencebg_StartPos;
+        GetComponent<BGScroll>().ResetBG();
     }
 
     private void ResetEachGame()
