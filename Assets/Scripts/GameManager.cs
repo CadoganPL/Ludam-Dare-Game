@@ -233,7 +233,7 @@ public class GameManager : MonoBehaviour
             ScoreText.text = Mathf.Round(score[gameRound]).ToString() ;
         }
     }
-
+    //comment
     //0-local , 1- multiplayer
     public void SelectMode(int a)
     {
