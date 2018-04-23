@@ -180,11 +180,6 @@ public class Server : MonoBehaviour
                 BroadCast("SSELECTION|" + aData[1], clients);
                 break;
             case "CRESULT":
-                if(aData[1] == "DRAW")
-                {
-                    BroadCast("SRESULT|DRAW", clients);
-                    return;
-                }
                 BroadCast("SRESULT|" + aData[1] + "|WIN",clients);
                 break;
         }
