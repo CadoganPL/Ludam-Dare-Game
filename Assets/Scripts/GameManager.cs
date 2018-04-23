@@ -233,6 +233,7 @@ public class GameManager : MonoBehaviour
     //0-local , 1- multiplayer
     public void SelectMode(int a)
     {
+        GetComponent<MenuUIManager>().HideMenus();
         gameMode = (GameMode)a;
         StartGame();
     }
