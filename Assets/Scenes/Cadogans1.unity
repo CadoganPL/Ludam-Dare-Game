@@ -988,7 +988,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 5f9355793248077448b9a52a19fc7f00, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 120fd9dda5a92a64dae7a9f1bedfaa0e, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.117
   m_Pitch: 1
@@ -1850,6 +1850,9 @@ MonoBehaviour:
   creditsPanel: {fileID: 361229317}
   pausePanel: {fileID: 201613534}
   howToPlayPanel: {fileID: 278116735}
+  mainBGM: {fileID: 8300000, guid: 120fd9dda5a92a64dae7a9f1bedfaa0e, type: 3}
+  gameBGM: {fileID: 8300000, guid: 5f9355793248077448b9a52a19fc7f00, type: 3}
+  source: {fileID: 990893235}
 --- !u!114 &1696555173
 MonoBehaviour:
   m_ObjectHideFlags: 0

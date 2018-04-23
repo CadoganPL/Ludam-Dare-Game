@@ -313,6 +313,12 @@ public class GameManager : MonoBehaviour
             btnManager.CardTwo.MyButton.interactable = true;
             btnManager.CardThree.MyButton.interactable = true;
         }
+        MenuUIManager menu = GetComponent<MenuUIManager>();
+        if (menu.source.clip != menu.gameBGM)
+        {
+            menu.source.clip = menu.gameBGM;
+            menu.source.Play();
+        }
         gameStart = true;
 
     }

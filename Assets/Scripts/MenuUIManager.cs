@@ -15,10 +15,17 @@ public class MenuUIManager : MonoBehaviour {
     private GameObject pausePanel;
     [SerializeField]
     private GameObject howToPlayPanel;
-
-
+    [SerializeField]
+    private AudioClip mainBGM;
+    public AudioClip gameBGM;
+    public AudioSource source;
 
     //yes, this is shitcode. Written fast to do the job, not be pretty.
+
+    void Awake()
+    {
+        source = GameObject.Find("Main Camera").GetComponent<AudioSource>();
+    }
 
     public void HideMenus()
     {
@@ -48,6 +55,11 @@ public class MenuUIManager : MonoBehaviour {
         playPanel.SetActive(true);
     }
     public void ShowMainMenuPanel () {
+        if(source.clip!=mainBGM)
+        {
+            source.clip = mainBGM;
+            source.Play();
+        }
         HideMenus();
         mainMenuPanel.SetActive(true);
 	}
@@ -75,5 +87,15 @@ public class MenuUIManager : MonoBehaviour {
     {
         pausePanel.SetActive(true);
     }
+
+    public void MuteAudio()
+    {
+        AudioListener.volume = 0;
+    }
+    public void ResumeAudio()
+    {
+        AudioListener.volume = 1;
+    }
+
 
 }
