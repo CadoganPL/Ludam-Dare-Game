@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,12 +13,30 @@ public class MenuUIManager : MonoBehaviour {
     private GameObject creditsPanel;
     [SerializeField]
     private GameObject pausePanel;
+    [SerializeField]
+    private GameObject howToPlayPanel;
 
+
+
+    //yes, this is shitcode. Written fast to do the job, not be pretty.
 
     public void HideMenus()
     {
         HideMainMenuPanel();
         HidePlayPanel();
+        HideCreditsPanel();
+        HideHowToPlayPanel();
+    }
+
+    public void HideHowToPlayPanel()
+    {
+        howToPlayPanel.SetActive(false);
+    }
+    
+    public void ShowHowToPlayPanel()
+    {
+        HideMenus();
+        howToPlayPanel.SetActive(true);
     }
 
     public void HidePlayPanel () {
@@ -25,15 +44,17 @@ public class MenuUIManager : MonoBehaviour {
 	}
     public void ShowPlayPanel()
     {
+        HideMenus();
         playPanel.SetActive(true);
     }
     public void ShowMainMenuPanel () {
+        HideMenus();
         mainMenuPanel.SetActive(true);
 	}
 
     public void HideMainMenuPanel()
     {
-        mainMenuPanel.SetActive(true);
+        mainMenuPanel.SetActive(false);
     }
 
     public void HideCreditsPanel()
@@ -42,6 +63,7 @@ public class MenuUIManager : MonoBehaviour {
     }
     public void ShowCreditsPanel()
     {
+        HideMenus();
         creditsPanel.SetActive(true);
     }
 
