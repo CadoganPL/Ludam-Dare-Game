@@ -230,7 +230,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            ScoreText.text = "Time: " + Mathf.Round(score[gameRound]);
+            ScoreText.text = Mathf.Round(score[gameRound]).ToString() ;
         }
     }
 
