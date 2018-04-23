@@ -111,11 +111,11 @@ public class GameManager : MonoBehaviour
                         blockPool[i].transform.position = points_SpawnLocations[rand];
                         blocksOnScreen.Add(blockPool[i]);
 
-                        if (NextBlockSpawnLocation != null)
-                        {
-                            SpawnCardObstacle();
-                            NextBlockSpawnLocation = null;
-                        }
+                        //if (NextBlockSpawnLocation != null)
+                        //{
+                        //    SpawnCardObstacle();
+                        //    NextBlockSpawnLocation = null;
+                        //}
 
                         blockPool[i].SetActive(true);
                         break;
@@ -156,8 +156,7 @@ public class GameManager : MonoBehaviour
                 position.x += 3;
             }
         }
-        int i = 0;
-        for (i = 0; i < blockPool.Count; i++)
+        for (int i = 0; i < blockPool.Count; i++)
         {
             if (!blockPool[i].activeSelf)
             {

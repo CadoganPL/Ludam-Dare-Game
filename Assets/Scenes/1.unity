@@ -677,6 +677,7 @@ GameObject:
   - component: {fileID: 886250218}
   - component: {fileID: 886250217}
   - component: {fileID: 886250216}
+  - component: {fileID: 886250219}
   m_Layer: 0
   m_Name: DisableObstacles
   m_TagString: Disabler
@@ -766,6 +767,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &886250219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 886250215}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 922fa01437d828342beda1095ed647ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &990893230
 GameObject:
   m_ObjectHideFlags: 0
@@ -1372,9 +1384,9 @@ MonoBehaviour:
   AISpawnTime: 2
   globalSpeed: 1
   points_SpawnLocations:
-  - {x: 14.6, y: -0.45}
-  - {x: 14.6, y: -0.55}
   - {x: 14.6, y: -1.05}
+  - {x: 14.6, y: -0.55}
+  - {x: 14.6, y: -0.45}
   score:
   - 0
   - 0
@@ -1441,9 +1453,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ccfabbec179ca349bb9eb6673e45aa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lowObstacle: {fileID: 0}
-  mediumObstacle: {fileID: 0}
-  highObstacle: {fileID: 0}
+  lowObstacle: {fileID: 1353534394919354, guid: ef6d2374b40f6bb41881f02570522391,
+    type: 2}
+  mediumObstacle: {fileID: 1353534394919354, guid: ef6d2374b40f6bb41881f02570522391,
+    type: 2}
+  highObstacle: {fileID: 1353534394919354, guid: ef6d2374b40f6bb41881f02570522391,
+    type: 2}
 --- !u!1 &1723594596
 GameObject:
   m_ObjectHideFlags: 0
