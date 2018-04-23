@@ -73,7 +73,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(globalSpeed < 1f)
+        if(globalSpeed < 1f) //"fix" for speedUp bug. xD
         {
             globalSpeed = 1.0f;
         }
