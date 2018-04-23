@@ -30,10 +30,30 @@ public class AllCardActions : MonoBehaviour
 
     public void SpawnHighObstacle()
     {
-        GameObject.Find("CardObstaclesSpawner").GetComponent<CardsObstacleSpawner>().SpawnObstacle(CardsObstacleSpawner.obstacleType.high);
+        FindObjectOfType< CardsObstacleSpawner >().SpawnObstacle(CardsObstacleSpawner.obstacleType.high);
     }
 
+    
+    public Action GetRandomAction()
+    {
+        int rand = UnityEngine.Random.Range(0, 5);
+        switch(rand)
+        {
+            case 0:
+                return Flashbang;
+            case 1:
+                return RunnerSpeedUp;
+            case 2:
+                return SpawnLowObstacle;
+            case 3:
+                return SpawnMidObstacle;
+            case 4:
+                return SpawnHighObstacle;
+            default:
+                return null;
 
+        }
+    }
 
     private IEnumerator SpeedUp()
     {
