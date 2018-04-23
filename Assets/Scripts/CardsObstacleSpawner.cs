@@ -6,7 +6,8 @@ using System;
 
 public class CardsObstacleSpawner : MonoBehaviour
 {
-
+    [SerializeField]
+    private GameObject prefab_block;
     [SerializeField]
     private GameObject lowObstacle;
     [SerializeField]
@@ -50,21 +51,30 @@ public class CardsObstacleSpawner : MonoBehaviour
         {
             xPosition = obstacleArray[0].transform.position.x * 1.5f;
         }
-
+        GameObject tmpGo = Instantiate(prefab_block,Vector2.zero, Quaternion.identity);
+        GameObject tmpGoChild;
         switch (type)
         {
             case obstacleType.low:
-                Instantiate(lowObstacle, new Vector2(xPosition, GameObject.Find("GameManager").GetComponent<GameManager>().points_SpawnLocations[0].y), Quaternion.identity).tag="CardObstacle";//.name ="Block_Card_" i; 
+                tmpGo.transform.position = new Vector2(xPosition, GameObject.Find("GameManager").GetComponent<GameManager>().points_SpawnLocations[0].y);
+                tmpGoChild = Instantiate(lowObstacle, Vector2.zero, Quaternion.identity);
                 break;
             case obstacleType.medium:
-                Instantiate(mediumObstacle, new Vector2(xPosition, GameObject.Find("GameManager").GetComponent<GameManager>().points_SpawnLocations[1].y), Quaternion.identity).tag = "CardObstacle";//.name = "Block_Card_" i; 
+                tmpGo.transform.position = new Vector2(xPosition, GameObject.Find("GameManager").GetComponent<GameManager>().points_SpawnLocations[1].y);
+                tmpGoChild = Instantiate(mediumObstacle, Vector2.zero, Quaternion.identity);
                 break;
             case obstacleType.high:
-                Instantiate(highObstacle, new Vector2(xPosition, GameObject.Find("GameManager").GetComponent<GameManager>().points_SpawnLocations[2].y), Quaternion.identity).tag = "CardObstacle";//.name = "Block_Card_" i; 
+                tmpGo.transform.position = new Vector2(xPosition, GameObject.Find("GameManager").GetComponent<GameManager>().points_SpawnLocations[2].y);
+                tmpGoChild = Instantiate(highObstacle, Vector2.zero, Quaternion.identity);
                 break;
             default:
+                tmpGoChild = Instantiate(prefab_block, Vector2.zero, Quaternion.identity);
                 break;
         }
+        tmpGo.tag = "CardObstacle";
+        tmpGoChild.transform.parent = tmpGo.transform;
+        tmpGo.transform.GetChild(0).transform.localPosition = Vector2.zero;
+        tmpGo.transform.GetChild(0).gameObject.tag = tmpGo.gameObject.tag;
     }
 
 

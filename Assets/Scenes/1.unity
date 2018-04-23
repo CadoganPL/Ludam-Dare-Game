@@ -158,11 +158,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ccfabbec179ca349bb9eb6673e45aa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lowObstacle: {fileID: 1353534394919354, guid: ef6d2374b40f6bb41881f02570522391,
+  prefab_block: {fileID: 1353534394919354, guid: ef6d2374b40f6bb41881f02570522391,
     type: 2}
-  mediumObstacle: {fileID: 1353534394919354, guid: ef6d2374b40f6bb41881f02570522391,
+  lowObstacle: {fileID: 1649482338445014, guid: db2532dcf66d9e24c99862034d78db5b,
     type: 2}
-  highObstacle: {fileID: 1353534394919354, guid: ef6d2374b40f6bb41881f02570522391,
+  mediumObstacle: {fileID: 1902611006997972, guid: fbde5bd84ef0f8742840a103b143409c,
+    type: 2}
+  highObstacle: {fileID: 1391309175761874, guid: 95c1af50c48a02541b1cfc54bf914f4c,
     type: 2}
 --- !u!4 &160265049
 Transform:
