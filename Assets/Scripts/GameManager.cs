@@ -225,14 +225,14 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            ScoreText.text = "Time: " + Mathf.Round(score[gameRound]);
+            ScoreText.text = Mathf.Round(score[gameRound]).ToString() ;
         }
     }
-
+    //comment
     //0-local , 1- multiplayer
     public void SelectMode(int a)
     {
-        //GetComponent<MenuUIManager>().HideMenus();
+        GetComponent<MenuUIManager>().HideMenus();
         gameMode = (GameMode)a;
         StartGame();
     }

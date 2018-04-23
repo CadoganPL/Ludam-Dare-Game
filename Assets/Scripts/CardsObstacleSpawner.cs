@@ -39,7 +39,7 @@ public class CardsObstacleSpawner : MonoBehaviour
                 obstacleArray[i] = null;
             }
         }
-        obstacleArray =  obstacleArray.Where(c => c != null).ToArray(); // deleting null from array
+        obstacleArray =  obstacleArray.Where(c => c != null & c.layer == 9).ToArray(); // deleting null from array
         obstacleArray = obstacleArray.OrderBy(x => Mathf.Abs(this.transform.position.x - x.transform.position.x)).ToArray();
         float xPosition = 0;
         try
@@ -49,7 +49,7 @@ public class CardsObstacleSpawner : MonoBehaviour
         }
         catch (IndexOutOfRangeException e)
         {
-            xPosition = obstacleArray[0].transform.position.x * 1.5f;
+            xPosition += Math.Abs(obstacleArray[0].transform.position.x) * 1.5f;
         }
         GameObject tmpGo = Instantiate(prefab_block,Vector2.zero, Quaternion.identity);
         GameObject tmpGoChild;
