@@ -89,7 +89,7 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.CompareTag("Obstacle"))
+        if (other.gameObject.tag == ("Obstacle") || other.gameObject.tag == ("CardObstacle"))
         {
             GameManager.instance.gameOver = true;
             anim.SetTrigger("dead");

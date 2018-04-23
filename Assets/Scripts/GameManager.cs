@@ -73,6 +73,10 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(globalSpeed < 1f)
+        {
+            globalSpeed = 1.0f;
+        }
         UIUpdate();
         Spawner();
         if (GameInProgress())
@@ -137,34 +141,34 @@ public class GameManager : MonoBehaviour
 
     }
 
-    private void SpawnCardObstacle()
-    {
-        Vector2 position = new Vector2(10.5f, -0.55f);
-        float yPos = points_SpawnLocations[(int)NextBlockSpawnLocation].y;
-        position.y = yPos;
-        if (blocksOnScreen.Count>1)
-        {
-            GameObject[] blockArray = blocksOnScreen.ToArray();
-            blockArray = blockArray.OrderBy(x => Mathf.Abs(x.transform.position.x - _player.transform.position.x)).ToArray();
-            position.x = (blockArray[0].transform.position.x + blockArray[1].transform.position.x) / 2;
-        }
-        else if (blocksOnScreen.Count == 1)
-        {
-            GameObject[] blockArray = blocksOnScreen.ToArray();
-            if(Vector2.Distance(blockArray[0].transform.position,position)<3)
-            {
-                position.x += 3;
-            }
-        }
-        for (int i = 0; i < blockPool.Count; i++)
-        {
-            if (!blockPool[i].activeSelf)
-            {
-                blockPool[i].transform.position = position;
-                break;
-            }
-        }
-    }
+    //private void SpawnCardObstacle()
+    //{
+    //    Vector2 position = new Vector2(10.5f, -0.55f);
+    //    float yPos = points_SpawnLocations[(int)NextBlockSpawnLocation].y;
+    //    position.y = yPos;
+    //    if (blocksOnScreen.Count>1)
+    //    {
+    //        GameObject[] blockArray = blocksOnScreen.ToArray();
+    //        blockArray = blockArray.OrderBy(x => Mathf.Abs(x.transform.position.x - _player.transform.position.x)).ToArray();
+    //        position.x = (blockArray[0].transform.position.x + blockArray[1].transform.position.x) / 2;
+    //    }
+    //    else if (blocksOnScreen.Count == 1)
+    //    {
+    //        GameObject[] blockArray = blocksOnScreen.ToArray();
+    //        if(Vector2.Distance(blockArray[0].transform.position,position)<3)
+    //        {
+    //            position.x += 3;
+    //        }
+    //    }
+    //    for (int i = 0; i < blockPool.Count; i++)
+    //    {
+    //        if (!blockPool[i].activeSelf)
+    //        {
+    //            blockPool[i].transform.position = position;
+    //            break;
+    //        }
+    //    }
+    //}
 
     private void RemovedObstacleFromScreen(GameObject Obstacle)
     {
@@ -177,6 +181,10 @@ public class GameManager : MonoBehaviour
         for (i = 0; i < blockPool.Count; i++)
         {
             blockPool[i].SetActive(false);
+        }
+        foreach (var item in GameObject.FindGameObjectsWithTag("CardObstacle"))
+        {
+            Destroy(item);
         }
     }
 
@@ -333,6 +341,7 @@ public class GameManager : MonoBehaviour
 
     private void ResetEachGame()
     {
+        globalSpeed = 1;
         score[0] = 0;
         score[1] = 0;
         gameRound = 0;

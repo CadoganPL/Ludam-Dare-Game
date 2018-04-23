@@ -14,7 +14,6 @@ public class CardsObstacleSpawner : MonoBehaviour
     [SerializeField]
     private GameObject highObstacle;
 
-    private int i = 0;
     public enum obstacleType
     {
         low,
@@ -32,11 +31,19 @@ public class CardsObstacleSpawner : MonoBehaviour
     public void SpawnObstacle(obstacleType type)
     {
         GameObject[] obstacleArray = GameObject.FindGameObjectsWithTag("Obstacle");
-        obstacleArray = obstacleArray.OrderBy(x => Mathf.Abs(this.transform.position.x - x.transform.position.x) ).ToArray();
+        for(int i = 0; i < obstacleArray.Length;i++) //nulling reference to obstacles which are behind spawner
+        {
+            if(obstacleArray[i].transform.position.x < this.transform.position.x)
+            {
+                obstacleArray[i] = null;
+            }
+        }
+        obstacleArray =  obstacleArray.Where(c => c != null).ToArray(); // deleting null from array
+        obstacleArray = obstacleArray.OrderBy(x => Mathf.Abs(this.transform.position.x - x.transform.position.x)).ToArray();
         float xPosition = 0;
         try
         {
-            xPosition = obstacleArray[0].transform.position.x - obstacleArray[1].transform.position.x;
+            xPosition = obstacleArray[0].transform.position.x + obstacleArray[1].transform.position.x;
             xPosition /= 2;
         }
         catch (IndexOutOfRangeException e)
@@ -47,13 +54,13 @@ public class CardsObstacleSpawner : MonoBehaviour
         switch (type)
         {
             case obstacleType.low:
-                Instantiate(this.lowObstacle, new Vector2(xPosition, GetComponent<GameManager>().points_SpawnLocations[0].y), Quaternion.identity).tag="CardObstacle";//.name ="Block_Card_" i; 
+                Instantiate(lowObstacle, new Vector2(xPosition, GameObject.Find("GameManager").GetComponent<GameManager>().points_SpawnLocations[0].y), Quaternion.identity).tag="CardObstacle";//.name ="Block_Card_" i; 
                 break;
             case obstacleType.medium:
-                Instantiate(this.mediumObstacle, new Vector2(xPosition, GetComponent<GameManager>().points_SpawnLocations[1].y), Quaternion.identity).tag = "CardObstacle";//.name = "Block_Card_" i; 
+                Instantiate(mediumObstacle, new Vector2(xPosition, GameObject.Find("GameManager").GetComponent<GameManager>().points_SpawnLocations[1].y), Quaternion.identity).tag = "CardObstacle";//.name = "Block_Card_" i; 
                 break;
             case obstacleType.high:
-                Instantiate(this.highObstacle, new Vector2(xPosition, GetComponent<GameManager>().points_SpawnLocations[2].y), Quaternion.identity).tag = "CardObstacle";//.name = "Block_Card_" i; 
+                Instantiate(highObstacle, new Vector2(xPosition, GameObject.Find("GameManager").GetComponent<GameManager>().points_SpawnLocations[2].y), Quaternion.identity).tag = "CardObstacle";//.name = "Block_Card_" i; 
                 break;
             default:
                 break;
