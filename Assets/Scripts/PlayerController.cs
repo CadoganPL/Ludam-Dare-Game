@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -39,15 +40,23 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     void FixedUpdate()
     {
         if (!GameManager.instance.GameInProgress())
+        {
             return;
-        RaycastHit2D hit = Physics2D.Raycast(_trans.position, Vector2.down,0.4f,groundLayer);
-        if(hit.collider!=null)
+        }
+
+        if (GameManager.instance.WhichGameMode() == GameMode.Multiplayer && GameManager.instance.WhichRole() == Role.Killer)
+        {
+            return;
+        }
+
+        RaycastHit2D hit = Physics2D.Raycast(_trans.position, Vector2.down, 0.4f, groundLayer);
+        if (hit.collider != null)
         {
             if (!isSliding)
             {
@@ -55,36 +64,54 @@ public class PlayerController : MonoBehaviour
             }
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                anim.SetBool("run", false);
-                anim.SetTrigger("jumpUp");
-                rig.AddForce(jumpForce * Vector2.up);
+                Jump();
             }
             if (Input.GetKeyDown(KeyCode.LeftControl))
             {
                 if (!isSliding)
                 {
-                    anim.SetBool("run", false);
-                    anim.SetTrigger("slide");
-                    StartCoroutine(IResetSlide(slideTime));
-                    _col.offset = colliderValues[1];
-                    _col.radius = .06f;
-                    isSliding = true;
+                    StartSliding();
                 }
             }
             if (Input.GetKeyUp(KeyCode.LeftControl))
             {
                 if (isSliding)
                 {
-                    StopCoroutine(IResetSlide(slideTime));
-                    isSliding = false;
-                    _col.offset = colliderValues[0];
-                    _col.radius = .35f;
-                    anim.SetTrigger("slideend");
+                    StopSliding();
                 }
 
             }
         }
-       
+
+    }
+
+    public void StopSliding()
+    {
+        StopCoroutine(IResetSlide(slideTime));
+        isSliding = false;
+        _col.offset = colliderValues[0];
+        _col.radius = .35f;
+        anim.SetTrigger("slideend");
+
+        if (GameManager.instance.WhichGameMode() == GameMode.Multiplayer && GameManager.instance.WhichRole() == Role.Runner)
+        {
+            FindObjectOfType<Client>().Send("CSLIDESTOP|");
+        }
+    }
+
+    public void StartSliding()
+    {
+        anim.SetBool("run", false);
+        anim.SetTrigger("slide");
+        StartCoroutine(IResetSlide(slideTime));
+        _col.offset = colliderValues[1];
+        _col.radius = .06f;
+        isSliding = true;
+
+        if (GameManager.instance.WhichGameMode() == GameMode.Multiplayer && GameManager.instance.WhichRole() == Role.Runner)
+        {
+            FindObjectOfType<Client>().Send("CSLIDESTART|");
+        }
     }
 
     void OnCollisionEnter2D(Collision2D other)
@@ -102,6 +129,18 @@ public class PlayerController : MonoBehaviour
         _trans.position = pos_Start;
         isJumping = false;
         anim.SetTrigger("idle");
+    }
+
+    public void Jump()
+    {
+        anim.SetBool("run", false);
+        anim.SetTrigger("jumpUp");
+        rig.AddForce(jumpForce * Vector2.up);
+
+        if (GameManager.instance.WhichGameMode() == GameMode.Multiplayer && GameManager.instance.WhichRole() == Role.Runner)
+        {
+            FindObjectOfType<Client>().Send("CJUMP|");
+        }
     }
 
     IEnumerator IResetSlide(float delay)

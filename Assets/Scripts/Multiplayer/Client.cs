@@ -26,14 +26,15 @@ public class Client : MonoBehaviour
 
     private List<GameClient> players = new List<GameClient>();
 
-    private PlayerControls Enemy;
-    private PlayerControls Player;
+    private GameManager _gameManager;
+    
+    private PlayerController Player;
 
     private void Start()
     {
         Inctance = this;
-        playfabID = FindObjectOfType<LoginOrganizer>().playfabID; ;
-        DontDestroyOnLoad(gameObject);        
+        playfabID = FindObjectOfType<LoginOrganizer>().playfabID;
+        DontDestroyOnLoad(gameObject);
     }
 
     public void ConnectToServer()
@@ -45,18 +46,24 @@ public class Client : MonoBehaviour
 
         try
         {
-            MatchmakeRequest req = new MatchmakeRequest() { BuildVersion = "1", GameMode = "Classic", Region = Region.Japan };
-            PlayFabClientAPI.Matchmake(req, MatchMakeCallBack, Error);            
+            MatchmakeRequest req = new MatchmakeRequest()
+            {
+                BuildVersion = "1",
+                GameMode = "Classic",
+                Region = Region.Japan
+            };
+
+            PlayFabClientAPI.Matchmake(req, MatchMakeCallBack, (e) => { print("Server not Found"); });
         }
         catch (Exception e)
         {
             Debug.Log("Socket Error " + e.Message);
-        }        
+        }
     }
 
     private void MatchMakeCallBack(MatchmakeResult obj)
     {
-        socket = new TcpClient(obj.ServerHostname,(int)obj.ServerPort);
+        socket = new TcpClient(obj.ServerHostname, (int)obj.ServerPort);
         stream = socket.GetStream();
         writer = new StreamWriter(stream);
         reader = new StreamReader(stream);
@@ -78,26 +85,18 @@ public class Client : MonoBehaviour
             {
                 string data = reader.ReadLine();
 
-                if(data != null)
+                if (data != null)
                 {
                     OnIncomingData(data);
                 }
             }
-        } 
-
-        if(Player == null)
-        {
-            if (SceneManager.GetActiveScene().name == "Game")
-            {
-                Player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControls>();
-            }
         }
 
-        if(Enemy == null)
+        if (Player == null)
         {
-            if (SceneManager.GetActiveScene().name == "Game")
+            if (_gameManager.WhichGameMode() == GameMode.Multiplayer)
             {
-                Enemy = GameObject.FindGameObjectWithTag("Enemy").GetComponent<PlayerControls>();
+                Player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
             }
         }
     }
@@ -113,7 +112,7 @@ public class Client : MonoBehaviour
         writer.WriteLine(data);
         writer.Flush();
     }
-    
+
     //Read Messages from the Server
     private void OnIncomingData(string data)
     {
@@ -124,59 +123,43 @@ public class Client : MonoBehaviour
         {
             case "SWHO":
                 clientNumber = int.Parse(aData[1]);
-                for (int i = 2; i < aData.Length - 1; i++)
+                if (aData.Length > 1)
                 {
-                    UserConnected(aData[i], false);
+                    for (int i = 2; i < aData.Length - 1; i++)
+                    {
+                        UserConnected(aData[i], false);
+                    } 
                 }
-                Send("CWHO|" + clientName + "|" + playfabID);
+                Send("CWHO|" + clientName + "|" + playfabID + "|" + clientNumber);
                 break;
             case "SCNN":
                 UserConnected(aData[1], false);
                 break;
-            case "SSELECTION":
-                if(Player.selection == aData[1])
-                {
-                    return;
-                }                
-                Enemy.selection = aData[1];
-                Enemy.isChoosen = true;
+            case "SCARD":
+                FindObjectOfType<AllCardActions>().Cards.Find(x => x.Method.ToString() == aData[1]).Invoke();
                 break;
-            case "SRESULT":
-                Text resultText = GameObject.Find("ResultText").GetComponent<Text>();
-                if (aData[1] == "DRAW")
-                {
-                    resultText.text = "Draw!";
-                    resultText.GetComponentInParent<Animator>().SetTrigger("Win");
-					EndGame();
-                    return;
-                }
-
-                if(int.Parse(aData[1]) == clientNumber)
-                {
-                    resultText.text = "You Win!";
-					resultText.GetComponentInParent<Animator>().SetTrigger("Win");
-					EndGame();
-                }
-                else
-                {
-                    resultText.text = "You Lose!";
-					resultText.GetComponentInParent<Animator>().SetTrigger("Win");
-					EndGame();
-                }
+            case "SJUMP":
+                Player.Jump();
+                break;
+            case "SSLIDESTART":
+                Player.StartSliding();
+                break;
+            case "SSLIDESTOP":
+                Player.StopSliding();
                 break;
         }
     }
 
-    private void UserConnected(string name,bool host)
+    private void UserConnected(string name, bool host)
     {
         GameClient c = new GameClient();
         c.name = name;
         c.playfabID = playfabID;
 
         players.Add(c);
-        if(players.Count == 2)
+        if (players.Count == 2)
         {
-            GameManager.Inctance.StartGame();
+            _gameManager.StartGame();
         }
     }
 
@@ -202,14 +185,12 @@ public class Client : MonoBehaviour
         socketReady = false;
     }
 
-	IEnumerator EndGame() 
-	{
-		yield return new WaitForSeconds (4f);
+    IEnumerator EndGame()
+    {
+        yield return new WaitForSeconds(4f);
 
-		SceneManager.LoadScene ("Lobby");
-
-		DestroyImmediate (gameObject);
-	}
+        DestroyImmediate(gameObject);
+    }
 }
 
 public class GameClient

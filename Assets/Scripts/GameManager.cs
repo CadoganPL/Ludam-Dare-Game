@@ -9,9 +9,8 @@ public class GameManager : MonoBehaviour
 {
 
     public static GameManager instance = null;
-    //modes
-    enum GameMode {Local,Multiplayer,AI };
     GameMode gameMode = 0;
+    Role role;
     int gameRound = 0;
     //Obstacle
     public GameObject prefab_Block;
@@ -21,7 +20,7 @@ public class GameManager : MonoBehaviour
     private float timeToSpawn;
     [SerializeField]
     private float AISpawnTime;
-    private float  AISpawnTimer;
+    private float AISpawnTimer;
     private Action[] AICards = new Action[3];
     public float globalSpeed = 1f;
     public Vector2[] points_SpawnLocations;
@@ -48,6 +47,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Button restartButton;
     private ButtonsManager btnManager;
+
+    //Called before Start
     void Awake()
     {
         if (instance == null)
@@ -79,6 +80,21 @@ public class GameManager : MonoBehaviour
         {
             score[gameRound] += Time.deltaTime;
         }
+    }
+
+    public void MakeRoleKiller()
+    {
+        role = Role.Killer;
+    }
+
+    public void MakeRoleRunner()
+    {
+        role = Role.Runner;
+    }
+
+    public Role WhichRole()
+    {
+        return role;
     }
 
 
@@ -124,7 +140,7 @@ public class GameManager : MonoBehaviour
                 timeToSpawn = 0;
             }
         }
-        if(gameMode==GameMode.AI)
+        if (gameMode == GameMode.AI)
         {
             AISpawnTimer += Time.deltaTime;
             if (AISpawnTimer >= AISpawnTime)
@@ -139,19 +155,10 @@ public class GameManager : MonoBehaviour
 
     private void SpawnCardObstacle()
     {
-<<<<<<< HEAD
-        GameObject[] blockArray = blocksOnScreen.ToArray();
-        blockArray = blockArray.OrderBy(x => Mathf.Abs(x.transform.position.x - _player.transform.position.x)).ToArray();
-
-        Vector2 position = new Vector2((blockArray[0].transform.position.x + blockArray[1].transform.position.x) / 2, 0f);
-        position.y = points_SpawnLocations[(int)NextBlockSpawnLocation].y;
-
-        Instantiate(prefab_Block, position, Quaternion.identity);
-=======
         Vector2 position = new Vector2(10.5f, -0.55f);
         float yPos = points_SpawnLocations[(int)NextBlockSpawnLocation].y;
         position.y = yPos;
-        if (blocksOnScreen.Count>1)
+        if (blocksOnScreen.Count > 1)
         {
             GameObject[] blockArray = blocksOnScreen.ToArray();
             blockArray = blockArray.OrderBy(x => Mathf.Abs(x.transform.position.x - _player.transform.position.x)).ToArray();
@@ -160,7 +167,7 @@ public class GameManager : MonoBehaviour
         else if (blocksOnScreen.Count == 1)
         {
             GameObject[] blockArray = blocksOnScreen.ToArray();
-            if(Vector2.Distance(blockArray[0].transform.position,position)<3)
+            if (Vector2.Distance(blockArray[0].transform.position, position) < 3)
             {
                 position.x += 3;
             }
@@ -174,7 +181,6 @@ public class GameManager : MonoBehaviour
                 break;
             }
         }
->>>>>>> master
     }
 
     private void RemovedObstacleFromScreen(GameObject Obstacle)
@@ -215,10 +221,19 @@ public class GameManager : MonoBehaviour
         StartGame();
     }
 
+    public GameMode WhichGameMode()
+    {
+        return gameMode;
+    }
+
+    public void WhenServerNotAvailable()
+    {
+        //Show Text
+    }
 
     void SetGameOverScreen()
     {
-        if(gameMode==GameMode.AI)
+        if (gameMode == GameMode.AI)
         {
             infoText.text = "Player 1 survived " + Mathf.Round(score[gameRound]) + " seconds";
             switchButton.gameObject.SetActive(false);
@@ -253,7 +268,7 @@ public class GameManager : MonoBehaviour
                 ResetEachGame();
             }
         }
-    
+
     }
 
     public void CloseAlUIPanels()
@@ -276,7 +291,7 @@ public class GameManager : MonoBehaviour
         OpenUIPanel(2);
         ResetEachGame();
         ResetEachRound();
-        if(gameMode==GameMode.AI)
+        if (gameMode == GameMode.AI)
         {
             btnManager.CardOne.MyButton.interactable = false;
             btnManager.CardTwo.MyButton.interactable = false;
@@ -316,7 +331,7 @@ public class GameManager : MonoBehaviour
 
     public void PauseGame()
     {
-        if(GameInProgress())
+        if (GameInProgress())
         {
             OpenUIPanel(3);
             gamePause = true;
@@ -355,6 +370,22 @@ public class GameManager : MonoBehaviour
         {
             return true;
         }
+        
         return false;
     }
 }
+
+//modes
+public enum GameMode
+{
+    Local,
+    Multiplayer,
+    AI
+};
+
+//Roles
+public enum Role
+{
+    Killer,
+    Runner
+};

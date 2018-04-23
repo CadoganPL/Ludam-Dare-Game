@@ -14,12 +14,13 @@ public class Server : MonoBehaviour
     public int port = 15950;
 
     private List<ServerClient> clients;
-	private List<ServerClient> disconnectList;
+    private List<ServerClient> disconnectList;
+    private List<Game> CurrentRunningGames;
 
     private TcpListener server;
     private bool serverStarted;
 
-    public string lobbyId;
+    [SerializeField] private string lobbyId;
 
     //Similar to start but called on demand
     public void Init()
@@ -34,7 +35,7 @@ public class Server : MonoBehaviour
             server.Start();
             StartListening();
 
-            RegisterGameRequest req = new RegisterGameRequest() { Build = "1", GameMode = "Classic", Region = Region.Japan,ServerHost = GetIP(),ServerPort = port.ToString() };
+            RegisterGameRequest req = new RegisterGameRequest() { Build = "1", GameMode = "Classic", Region = Region.Japan, ServerHost = GetIP(), ServerPort = port.ToString() };
             PlayFabServerAPI.RegisterGame(req, ServerRegisterCallBack, (result) => Debug.LogError(result.ErrorMessage));
         }
         catch (Exception e)
@@ -69,7 +70,7 @@ public class Server : MonoBehaviour
                     StreamReader reader = new StreamReader(s, true);
                     string data = reader.ReadLine();
 
-                    if(data != null)
+                    if (data != null)
                     {
                         OnIncomingData(c, data);
                     }
@@ -81,9 +82,9 @@ public class Server : MonoBehaviour
         {
             //Tell our Player someone has Disconnected
 
-            NotifyMatchmakerPlayerLeftRequest req = new NotifyMatchmakerPlayerLeftRequest() { LobbyId = lobbyId, PlayFabId = clients[i].playfabID};
-			print (clients [i].playfabID);
-			PlayFabServerAPI.NotifyMatchmakerPlayerLeft(req, PlayerLeftCallBack, (result) => Debug.Log(result.ErrorMessage));
+            NotifyMatchmakerPlayerLeftRequest req = new NotifyMatchmakerPlayerLeftRequest() { LobbyId = lobbyId, PlayFabId = clients[i].playfabID };
+            print(clients[i].playfabID);
+            PlayFabServerAPI.NotifyMatchmakerPlayerLeft(req, PlayerLeftCallBack, (result) => Debug.Log(result.ErrorMessage));
             clients.Remove(disconnectList[i]);
             disconnectList.RemoveAt(i);
         }
@@ -99,18 +100,60 @@ public class Server : MonoBehaviour
     {
         TcpListener listener = (TcpListener)ar.AsyncState;
 
-        string allUsers = "";
-        foreach (ServerClient i in clients)
-        {
-            allUsers += i.clientName.ToString() + '|';
-        }
-
         ServerClient sc = new ServerClient(listener.EndAcceptTcpClient(ar));
         clients.Add(sc);
 
         StartListening();
-        
-        BroadCast("SWHO|"+ clients.Count.ToString() + "|" + allUsers, sc);
+
+        Game connectedPlayerGame = new Game();
+        int connectedPlayerIndex = 1;
+
+        if (CurrentRunningGames.Count > 0)
+        {
+            bool thereAreGamesWaitingForPlayers = false;
+            int waitingGameIndex = 0;
+
+            //Which game needs player
+            for (int i = 0; i < CurrentRunningGames.Count; i++)
+            {
+                if (!CurrentRunningGames[i].BothClientsPresent)
+                {
+                    thereAreGamesWaitingForPlayers = true;
+                    waitingGameIndex = i;
+                }
+            }
+
+            //Give the game Player
+            if (thereAreGamesWaitingForPlayers)
+            {
+                CurrentRunningGames[waitingGameIndex].client2 = sc;
+                connectedPlayerIndex = 2;
+
+                connectedPlayerGame = CurrentRunningGames[waitingGameIndex];
+            }
+            else
+            {
+                Game game = new Game();
+                game.client1 = sc;
+
+                connectedPlayerGame = game;
+                connectedPlayerIndex = 1;
+            }
+        }
+        else
+        {
+            Game game = new Game();
+            game.client1 = sc;
+
+            connectedPlayerGame = game;
+            connectedPlayerIndex = 1;
+        }
+
+        CurrentRunningGames.Add(connectedPlayerGame);
+
+        string msg = (connectedPlayerIndex == 2) ? "|" + connectedPlayerGame.client1.clientName : "";
+
+        BroadCast("SWHO|" + connectedPlayerIndex + msg, sc);
     }
 
 
@@ -118,7 +161,7 @@ public class Server : MonoBehaviour
     {
         try
         {
-            if(c != null && c.Client != null && c.Client.Connected)
+            if (c != null && c.Client != null && c.Client.Connected)
             {
                 if (c.Client.Poll(0, SelectMode.SelectRead))
                 {
@@ -140,7 +183,7 @@ public class Server : MonoBehaviour
     }
 
     //Server Send
-    private void BroadCast(string data,List<ServerClient> cl)
+    private void BroadCast(string data, List<ServerClient> cl)
     {
         foreach (ServerClient sc in cl)
         {
@@ -174,13 +217,115 @@ public class Server : MonoBehaviour
             case "CWHO":
                 c.clientName = aData[1];
                 c.playfabID = aData[2];
+
+                if (int.Parse(aData[3]) == 1)
+                {
+                    CurrentRunningGames.Find((x) =>
+                    {
+                        if (int.Parse(aData[3]) == 1)
+                        {
+                            return x.client1 == c;
+                        }
+                        else
+                        {
+                            return x.client2 == c;
+                        }
+                    }).client1.clientName = aData[1];
+
+                    CurrentRunningGames.Find((x) =>
+                    {
+                        if (int.Parse(aData[3]) == 1)
+                        {
+                            return x.client1 == c;
+                        }
+                        else
+                        {
+                            return x.client2 == c;
+                        }
+                    }).client1.playfabID = aData[2];
+                }
+                else
+                {
+
+                    CurrentRunningGames.Find((x) =>
+                    {
+                        if (int.Parse(aData[3]) == 1)
+                        {
+                            return x.client1 == c;
+                        }
+                        else
+                        {
+                            return x.client2 == c;
+                        }
+                    }).client2.clientName = aData[1];
+
+                    CurrentRunningGames.Find((x) =>
+                    {
+                        if (int.Parse(aData[3]) == 1)
+                        {
+                            return x.client1 == c;
+                        }
+                        else
+                        {
+                            return x.client2 == c;
+                        }
+                    }).client2.playfabID = aData[2];
+                }
+
                 BroadCast("SCNN|" + c.clientName, clients);
+
                 break;
-            case "CSELECTION":
-                BroadCast("SSELECTION|" + aData[1], clients);
+            case "CCARD":
+                for (int i = 0; i < CurrentRunningGames.Count; i++)
+                {
+                    if (CurrentRunningGames[i].client1 == c)
+                    {
+                        BroadCast("SCARD|" + aData[1] + "|" + aData[2], CurrentRunningGames[i].client2);
+                    }
+                    else if (CurrentRunningGames[i].client2 == c)
+                    {
+                        BroadCast("SCARD|" + aData[1] + "|" + aData[2], CurrentRunningGames[i].client1);
+                    }
+                }
                 break;
-            case "CRESULT":
-                BroadCast("SRESULT|" + aData[1] + "|WIN",clients);
+            case "CJUMP":
+                for (int i = 0; i < CurrentRunningGames.Count; i++)
+                {
+                    if (CurrentRunningGames[i].client1 == c)
+                    {
+                        BroadCast("SJUMP|", CurrentRunningGames[i].client2);
+                    }
+                    else if (CurrentRunningGames[i].client2 == c)
+                    {
+                        BroadCast("SJUMP|", CurrentRunningGames[i].client1);
+                    }
+                }
+                break;
+            case "CSLIDESTART":
+                for (int i = 0; i < CurrentRunningGames.Count; i++)
+                {
+                    if (CurrentRunningGames[i].client1 == c)
+                    {
+                        BroadCast("SSLIDESTART|", CurrentRunningGames[i].client2);
+                    }
+                    else if (CurrentRunningGames[i].client2 == c)
+                    {
+                        BroadCast("SSLIDESTART|", CurrentRunningGames[i].client1);
+                    }
+                }
+                break;
+            case "CSLIDESTOP":
+                for (int i = 0; i < CurrentRunningGames.Count; i++)
+                {
+                    if (CurrentRunningGames[i].client1 == c)
+                    {
+                        BroadCast("SSLIDESTOP|", CurrentRunningGames[i].client2);
+                    }
+                    else if (CurrentRunningGames[i].client2 == c)
+                    {
+                        BroadCast("SSLIDESTOP|", CurrentRunningGames[i].client1);
+                    }
+                }
                 break;
         }
     }
@@ -259,4 +404,12 @@ public class ServerClient
     {
         this.tcp = tcp;
     }
+}
+
+public class Game
+{
+    public ServerClient client1;
+    public ServerClient client2;
+
+    public bool BothClientsPresent;
 }

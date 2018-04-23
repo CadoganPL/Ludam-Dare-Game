@@ -63,11 +63,21 @@ public class ButtonsManager : MonoBehaviour
 
     public void CardOneButton()
     {
-        CardOne.MyWork = FindObjectOfType<AllCardActions>().GetRandomAction(); ;
+        if(CardOne.MyWork == null)
+        {
+            CardOne.MyWork = FindObjectOfType<AllCardActions>().Flashbang;
+        }
 
         print("Using Card One, adding timer");
         Debug.Log("Card One action: " + CardOne.MyWork.Method.ToString());
         CardOne.MyWork();
+
+        CardOne.MyWork = FindObjectOfType<AllCardActions>().GetRandomAction();
+
+        if (GameManager.instance.WhichGameMode() == GameMode.Multiplayer)
+        {
+            FindObjectOfType<Client>().Send("CCARD|" + CardOne.MyWork.Method.ToString() + "|1");
+        }
 
         DisableAllCards();
     }
@@ -88,20 +98,42 @@ public class ButtonsManager : MonoBehaviour
 
     public void CardTwoButton()
     {
-        CardTwo.MyWork = FindObjectOfType<AllCardActions>().GetRandomAction();
+        if (CardTwo.MyWork == null)
+        {
+            CardTwo.MyWork = FindObjectOfType<AllCardActions>().RunnerSpeedUp;
+        }
+
         print("Using Card Two, adding timer");
         Debug.Log("Card Two action: " + CardTwo.MyWork.Method.ToString());
         CardTwo.MyWork();
+
+        CardTwo.MyWork = FindObjectOfType<AllCardActions>().GetRandomAction();
+
+        if (GameManager.instance.WhichGameMode() == GameMode.Multiplayer)
+        {
+            FindObjectOfType<Client>().Send("CCARD|" + CardOne.MyWork.Method.ToString() + "|2");
+        }
 
         DisableAllCards();
     }
 
     public void CardThreeButton()
     {
-        CardThree.MyWork = FindObjectOfType<AllCardActions>().GetRandomAction();
+        if (CardThree.MyWork == null)
+        {
+            CardThree.MyWork = FindObjectOfType<AllCardActions>().SpawnHighObstacle;
+        }
+
         Debug.Log("Card Three action: " + CardThree.MyWork.Method.ToString());
         print("Using Card Three, adding timer");
         CardThree.MyWork();
+
+        CardThree.MyWork = FindObjectOfType<AllCardActions>().GetRandomAction();
+
+        if (GameManager.instance.WhichGameMode() == GameMode.Multiplayer)
+        {
+            FindObjectOfType<Client>().Send("CCARD|" + CardOne.MyWork.Method.ToString() + "|3");
+        }
 
         DisableAllCards();
     }

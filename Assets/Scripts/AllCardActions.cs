@@ -9,6 +9,17 @@ public class AllCardActions : MonoBehaviour
     public Image FlashBang;
     public float TimeBetweenFlashbangFade;
 
+    public List<Action> Cards = new List<Action>();
+
+    private void Start()
+    {
+        Cards.Add(Flashbang);
+        Cards.Add(RunnerSpeedUp);
+        Cards.Add(SpawnHighObstacle);
+        Cards.Add(SpawnMidObstacle);
+        Cards.Add(SpawnLowObstacle);
+    }
+
     public void Flashbang()
     {
         StartCoroutine(FlashBangScreen());
