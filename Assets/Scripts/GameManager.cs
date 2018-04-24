@@ -179,8 +179,7 @@ public class GameManager : MonoBehaviour
         }
 
     }
-
-<<<<<<< HEAD
+    
     private void SpawnCardObstacle()
     {
         Vector2 position = new Vector2(10.5f, -0.55f);
@@ -210,7 +209,6 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-=======
     //private void SpawnCardObstacle()
     //{
     //    Vector2 position = new Vector2(10.5f, -0.55f);
@@ -239,7 +237,6 @@ public class GameManager : MonoBehaviour
     //        }
     //    }
     //}
->>>>>>> pr/17
 
     private void RemovedObstacleFromScreen(GameObject Obstacle)
     {
