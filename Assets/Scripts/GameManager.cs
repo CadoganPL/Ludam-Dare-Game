@@ -433,7 +433,6 @@ public class GameManager : MonoBehaviour
         score[0] = 0;
         score[1] = 0;
         gameRound = 0;
-        btnManager.SetCards();
     }
 
     public bool GameInProgress()

@@ -75,7 +75,7 @@ public class AllCardActions : MonoBehaviour
 
     private IEnumerator FlashBangScreen()
     {
-        FlashBang.gameObject.SetActive(true);
+        FlashBang.enabled = true;
 
         for (float i = 0; i <= 1; i += 0.08f)
         {
@@ -99,7 +99,7 @@ public class AllCardActions : MonoBehaviour
             FlashBang.color = col;
         }
 
-        FlashBang.gameObject.SetActive(false);
+        FlashBang.enabled = false;
 
 
     }
