@@ -13,7 +13,10 @@ public class GameManager : MonoBehaviour
     Role role;
     int gameRound = 0;
     //Obstacle
-    public GameObject prefab_Block;
+    public GameObject prefab_block;
+    public GameObject prefab_obstacle_low;
+    public GameObject prefab_obstacle_medium;
+    public GameObject prefab_obstacle_high;
     private List<GameObject> blockPool = new List<GameObject>();
     private List<GameObject> blocksOnScreen = new List<GameObject>();
     public float spawnTimer;
@@ -63,6 +66,7 @@ public class GameManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        GetComponent<BGScroll>().fencebg_StartPos = GetComponent<BGScroll>().fenceBG.position;
         ResetEachRound();
         PoolBlocks();
         AICards[0] = FindObjectOfType<AllCardActions>().Flashbang;
@@ -74,6 +78,10 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(globalSpeed < 1f) //"fix" for speedUp bug. xD
+        {
+            globalSpeed = 1.0f;
+        }
         UIUpdate();
         Spawner();
         if (GameInProgress())
@@ -104,7 +112,7 @@ public class GameManager : MonoBehaviour
         int i = 0;
         for (i = 0; i < 15; i++)
         {
-            GameObject go = Instantiate(prefab_Block, points_SpawnLocations[0], Quaternion.identity) as GameObject;
+            GameObject go = Instantiate(prefab_block, points_SpawnLocations[0], Quaternion.identity) as GameObject;
             go.name = "Block_" + i;
             go.SetActive(false);
             blockPool.Add(go);
@@ -125,13 +133,32 @@ public class GameManager : MonoBehaviour
                     {
                         int rand = UnityEngine.Random.Range(0, 3);
                         blockPool[i].transform.position = points_SpawnLocations[rand];
+                        if (blockPool[i].transform.childCount == 0)
+                        {
+                            switch (rand)
+                            {
+                                case 0:
+                                    Instantiate(prefab_obstacle_low, Vector2.zero, Quaternion.identity).transform.parent = blockPool[i].transform;
+                                    break;
+                                case 1:
+                                    Instantiate(prefab_obstacle_medium, Vector2.zero, Quaternion.identity).transform.parent = blockPool[i].transform;
+                                    break;
+                                case 2:
+                                    Instantiate(prefab_obstacle_high, Vector2.zero, Quaternion.identity).transform.parent = blockPool[i].transform;
+                                    break;
+                                default:
+                                    break;
+                            }
+                            blockPool[i].transform.GetChild(0).transform.localPosition = Vector2.zero;
+                            blockPool[i].transform.GetChild(0).gameObject.tag = blockPool[i].gameObject.tag;
+                        }
                         blocksOnScreen.Add(blockPool[i]);
 
-                        if (NextBlockSpawnLocation != null)
-                        {
-                            SpawnCardObstacle();
-                            NextBlockSpawnLocation = null;
-                        }
+                        //if (NextBlockSpawnLocation != null)
+                        //{
+                        //    SpawnCardObstacle();
+                        //    NextBlockSpawnLocation = null;
+                        //}
 
                         blockPool[i].SetActive(true);
                         break;
@@ -153,6 +180,7 @@ public class GameManager : MonoBehaviour
 
     }
 
+<<<<<<< HEAD
     private void SpawnCardObstacle()
     {
         Vector2 position = new Vector2(10.5f, -0.55f);
@@ -182,6 +210,36 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+=======
+    //private void SpawnCardObstacle()
+    //{
+    //    Vector2 position = new Vector2(10.5f, -0.55f);
+    //    float yPos = points_SpawnLocations[(int)NextBlockSpawnLocation].y;
+    //    position.y = yPos;
+    //    if (blocksOnScreen.Count>1)
+    //    {
+    //        GameObject[] blockArray = blocksOnScreen.ToArray();
+    //        blockArray = blockArray.OrderBy(x => Mathf.Abs(x.transform.position.x - _player.transform.position.x)).ToArray();
+    //        position.x = (blockArray[0].transform.position.x + blockArray[1].transform.position.x) / 2;
+    //    }
+    //    else if (blocksOnScreen.Count == 1)
+    //    {
+    //        GameObject[] blockArray = blocksOnScreen.ToArray();
+    //        if(Vector2.Distance(blockArray[0].transform.position,position)<3)
+    //        {
+    //            position.x += 3;
+    //        }
+    //    }
+    //    for (int i = 0; i < blockPool.Count; i++)
+    //    {
+    //        if (!blockPool[i].activeSelf)
+    //        {
+    //            blockPool[i].transform.position = position;
+    //            break;
+    //        }
+    //    }
+    //}
+>>>>>>> pr/17
 
     private void RemovedObstacleFromScreen(GameObject Obstacle)
     {
@@ -190,10 +248,17 @@ public class GameManager : MonoBehaviour
 
     void ResetPoolObjects()
     {
-        int i = 0;
-        for (i = 0; i < blockPool.Count; i++)
+        foreach (var item in blockPool)
         {
-            blockPool[i].SetActive(false);
+            item.SetActive(false);
+            if(item.transform.childCount != 0)
+            {
+                Destroy(item.transform.GetChild(0).gameObject);
+            }
+        }
+        foreach (var item in GameObject.FindGameObjectsWithTag("CardObstacle"))
+        {
+            Destroy(item);
         }
     }
 
@@ -210,13 +275,14 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            ScoreText.text = "Time: " + Mathf.Round(score[gameRound]);
+            ScoreText.text = Mathf.Round(score[gameRound]).ToString() ;
         }
     }
-
+    //comment
     //0-local , 1- multiplayer
     public void SelectMode(int a)
     {
+        GetComponent<MenuUIManager>().HideMenus();
         gameMode = (GameMode)a;
         StartGame();
     }
@@ -304,6 +370,12 @@ public class GameManager : MonoBehaviour
             btnManager.CardTwo.MyButton.interactable = true;
             btnManager.CardThree.MyButton.interactable = true;
         }
+        MenuUIManager menu = GetComponent<MenuUIManager>();
+        if (menu.source.clip != menu.gameBGM)
+        {
+            menu.source.clip = menu.gameBGM;
+            menu.source.Play();
+        }
         gameStart = true;
 
     }
@@ -355,13 +427,16 @@ public class GameManager : MonoBehaviour
         timeToSpawn = 0;
         _player.ResetPlayer();
         ResetPoolObjects();
+        GetComponent<BGScroll>().ResetBG();
     }
 
     private void ResetEachGame()
     {
+        globalSpeed = 1;
         score[0] = 0;
         score[1] = 0;
         gameRound = 0;
+        btnManager.SetCards();
     }
 
     public bool GameInProgress()

@@ -38,12 +38,16 @@ public class PlayerController : MonoBehaviour
     }
 
     // Update is called once per frame
+<<<<<<< HEAD
     void Update()
     {
 
     }
+=======
+>>>>>>> pr/17
 
-    void FixedUpdate()
+
+    void Update()
     {
         if (!GameManager.instance.GameInProgress())
         {
@@ -70,14 +74,31 @@ public class PlayerController : MonoBehaviour
             {
                 if (!isSliding)
                 {
+<<<<<<< HEAD
                     StartSliding();
+=======
+                    anim.SetBool("run", false);
+                    anim.SetTrigger("slide");
+                    StartCoroutine(IResetSlide(slideTime));
+                    _col.offset = colliderValues[1];
+                    _col.radius = .25f;
+                    isSliding = true;
+>>>>>>> pr/17
                 }
             }
             if (Input.GetKeyUp(KeyCode.LeftControl))
             {
                 if (isSliding)
                 {
+<<<<<<< HEAD
                     StopSliding();
+=======
+                    StopCoroutine(IResetSlide(slideTime));
+                    isSliding = false;
+                    _col.offset = colliderValues[0];
+                    _col.radius = .3f;
+                    anim.SetTrigger("slideend");
+>>>>>>> pr/17
                 }
 
             }
@@ -116,7 +137,7 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.CompareTag("Obstacle"))
+        if (other.gameObject.tag == "Obstacle" || other.gameObject.tag == "CardObstacle")
         {
             GameManager.instance.gameOver = true;
             anim.SetTrigger("dead");

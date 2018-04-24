@@ -15,6 +15,39 @@ public class ButtonsManager : MonoBehaviour
     public bool CardOneTimerSet { get { return cardOneTimerSet; } }
     public bool CardTwoTimerSet { get { return cardTwoTimerSet; } }
     public bool CardThreeTimerSet { get { return cardThreeTimerSet; } }
+    public Sprite[] buttonImages;
+
+    public void SetCards()
+    {
+        CardOne.MyWork = FindObjectOfType<AllCardActions>().GetRandomAction();
+        CardOne.MyButton.image.sprite = buttonImages[CardName(CardOne.MyWork)];
+        CardTwo.MyWork = FindObjectOfType<AllCardActions>().GetRandomAction();
+        CardTwo.MyButton.image.sprite = buttonImages[CardName(CardTwo.MyWork)];
+        CardThree.MyWork = FindObjectOfType<AllCardActions>().GetRandomAction();
+        CardThree.MyButton.image.sprite = buttonImages[CardName(CardThree.MyWork)];
+
+    }
+
+    private int CardName(Action work)
+    {
+        string str = work.Method.ToString();
+        switch (str)
+        {
+            case "Void Flashbang()":
+                return 0;
+            case "Void RunnerSpeedUp()":
+                return 1;
+            case "Void SpawnLowObstacle()":
+                return 2;
+            case "Void SpawnMidObstacle()":
+                return 3;
+            case "Void SpawnHighObstacle()":
+                return 4;
+            default:
+                return 0;
+        }
+    }
+
 
     private void Update()
     {
@@ -63,10 +96,13 @@ public class ButtonsManager : MonoBehaviour
 
     public void CardOneButton()
     {
+<<<<<<< HEAD
         if(CardOne.MyWork == null)
         {
             CardOne.MyWork = FindObjectOfType<AllCardActions>().Flashbang;
         }
+=======
+>>>>>>> pr/17
 
         print("Using Card One, adding timer");
         Debug.Log("Card One action: " + CardOne.MyWork.Method.ToString());
@@ -98,11 +134,14 @@ public class ButtonsManager : MonoBehaviour
 
     public void CardTwoButton()
     {
+<<<<<<< HEAD
         if (CardTwo.MyWork == null)
         {
             CardTwo.MyWork = FindObjectOfType<AllCardActions>().RunnerSpeedUp;
         }
 
+=======
+>>>>>>> pr/17
         print("Using Card Two, adding timer");
         Debug.Log("Card Two action: " + CardTwo.MyWork.Method.ToString());
         CardTwo.MyWork();
@@ -119,11 +158,14 @@ public class ButtonsManager : MonoBehaviour
 
     public void CardThreeButton()
     {
+<<<<<<< HEAD
         if (CardThree.MyWork == null)
         {
             CardThree.MyWork = FindObjectOfType<AllCardActions>().SpawnHighObstacle;
         }
 
+=======
+>>>>>>> pr/17
         Debug.Log("Card Three action: " + CardThree.MyWork.Method.ToString());
         print("Using Card Three, adding timer");
         CardThree.MyWork();

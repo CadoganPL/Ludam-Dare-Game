@@ -42,6 +42,10 @@ public class ObstacleMover : MonoBehaviour {
     {
         if(other.gameObject.CompareTag("Disabler"))
         {
+            if (transform.childCount != 0)
+            {
+                Destroy(transform.GetChild(0).gameObject);
+            }
             gameObject.SetActive(false);
         }
     }
