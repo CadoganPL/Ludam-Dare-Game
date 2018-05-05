@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
 
     public static GameManager instance = null;
     //modes
-    enum GameMode {Local,Multiplayer,AI };
+    enum GameMode { Local, Multiplayer, AI };
     GameMode gameMode = 0;
     int gameRound = 0;
     //Obstacle
@@ -18,13 +18,14 @@ public class GameManager : MonoBehaviour
     public GameObject prefab_obstacle_low;
     public GameObject prefab_obstacle_medium;
     public GameObject prefab_obstacle_high;
+    public GameObject EnemyCardUsedPanel;
     private List<GameObject> blockPool = new List<GameObject>();
     private List<GameObject> blocksOnScreen = new List<GameObject>();
     public float spawnTimer;
     private float timeToSpawn;
     [SerializeField]
     private float AISpawnTime;
-    private float  AISpawnTimer;
+    private float AISpawnTimer;
     private Action[] AICards = new Action[3];
     public float globalSpeed = 1f;
     public Vector2[] points_SpawnLocations;
@@ -77,7 +78,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(globalSpeed < 1f) //"fix" for speedUp bug. xD
+        if (globalSpeed < 1f) //"fix" for speedUp bug. xD
         {
             globalSpeed = 1.0f;
         }
@@ -151,17 +152,30 @@ public class GameManager : MonoBehaviour
                 timeToSpawn = 0;
             }
         }
-        if(gameMode==GameMode.AI)
+
+        if (gameMode == GameMode.AI && GameInProgress())
         {
             AISpawnTimer += Time.deltaTime;
             if (AISpawnTimer >= AISpawnTime)
             {
                 int rand = UnityEngine.Random.Range(0, 3);
                 AICards[rand]();
+                EnablePopUp();
+                Invoke("DisablePopUp", 0.5f);
                 AISpawnTimer = 0;
             }
         }
 
+    }
+
+    private void DisablePopUp()
+    {
+        EnemyCardUsedPanel.SetActive(false);
+    }
+
+    private void EnablePopUp()
+    {
+        EnemyCardUsedPanel.SetActive(true);
     }
 
     //private void SpawnCardObstacle()
@@ -203,7 +217,7 @@ public class GameManager : MonoBehaviour
         foreach (var item in blockPool)
         {
             item.SetActive(false);
-            if(item.transform.childCount != 0)
+            if (item.transform.childCount != 0)
             {
                 Destroy(item.transform.GetChild(0).gameObject);
             }
@@ -227,7 +241,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            ScoreText.text = Mathf.Round(score[gameRound]).ToString() ;
+            ScoreText.text = Mathf.Round(score[gameRound]).ToString();
         }
     }
     //comment
@@ -242,7 +256,7 @@ public class GameManager : MonoBehaviour
 
     void SetGameOverScreen()
     {
-        if(gameMode==GameMode.AI)
+        if (gameMode == GameMode.AI)
         {
             infoText.text = "Player 1 survived " + Mathf.Round(score[gameRound]) + " seconds";
             switchButton.gameObject.SetActive(false);
@@ -277,7 +291,7 @@ public class GameManager : MonoBehaviour
                 ResetEachGame();
             }
         }
-    
+
     }
 
     public void CloseAlUIPanels()
@@ -300,7 +314,7 @@ public class GameManager : MonoBehaviour
         OpenUIPanel(2);
         ResetEachGame();
         ResetEachRound();
-        if(gameMode==GameMode.AI)
+        if (gameMode == GameMode.AI)
         {
             btnManager.CardOne.MyButton.interactable = false;
             btnManager.CardTwo.MyButton.interactable = false;
@@ -346,7 +360,7 @@ public class GameManager : MonoBehaviour
 
     public void PauseGame()
     {
-        if(GameInProgress())
+        if (GameInProgress())
         {
             OpenUIPanel(3);
             gamePause = true;
