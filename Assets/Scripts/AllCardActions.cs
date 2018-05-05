@@ -58,15 +58,15 @@ public class AllCardActions : MonoBehaviour
     private IEnumerator SpeedUp()
     {
         GetComponent<GameManager>().globalSpeed *= 2;
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1.5f);
         GetComponent<GameManager>().globalSpeed /= 2;
     }
 
     private IEnumerator FlashBangScreen()
     {
-        FlashBang.enabled = true;
+        FlashBang.gameObject.SetActive(true);
 
-        for (float i = 0; i <= 1; i += 0.08f)
+        for (float i = 0; i <= 0.86; i += 0.08f)
         {
             yield return new WaitForSeconds(0.08f * Time.deltaTime);
 
@@ -88,7 +88,7 @@ public class AllCardActions : MonoBehaviour
             FlashBang.color = col;
         }
 
-        FlashBang.enabled = false;
+        FlashBang.gameObject.SetActive(false);
 
 
     }

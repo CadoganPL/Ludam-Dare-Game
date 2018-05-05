@@ -37,12 +37,9 @@ public class PlayerController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
-    void FixedUpdate()
+
+    void Update()
     {
         if (!GameManager.instance.GameInProgress())
             return;
@@ -67,7 +64,7 @@ public class PlayerController : MonoBehaviour
                     anim.SetTrigger("slide");
                     StartCoroutine(IResetSlide(slideTime));
                     _col.offset = colliderValues[1];
-                    _col.radius = .06f;
+                    _col.radius = .25f;
                     isSliding = true;
                 }
             }
@@ -78,7 +75,7 @@ public class PlayerController : MonoBehaviour
                     StopCoroutine(IResetSlide(slideTime));
                     isSliding = false;
                     _col.offset = colliderValues[0];
-                    _col.radius = .35f;
+                    _col.radius = .3f;
                     anim.SetTrigger("slideend");
                 }
 
@@ -89,7 +86,7 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.CompareTag("Obstacle"))
+        if (other.gameObject.tag == "Obstacle" || other.gameObject.tag == "CardObstacle")
         {
             GameManager.instance.gameOver = true;
             anim.SetTrigger("dead");
